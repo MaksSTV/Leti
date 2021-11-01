@@ -1,7 +1,8 @@
 ﻿#include <iostream>
 #include <time.h>
-#include <stdlib.h> 
+#include <cstdlib> 
 #include <chrono>
+#include <cstring>
 
 int BinarySearch(int* Array, int Size_array, int key) {
     char flag = 'N';
@@ -23,8 +24,7 @@ int BinarySearch(int* Array, int Size_array, int key) {
     return (flag == 'Y') ? middle : -1;
 }// O(log_2 N)
 
-void QuickSort(int* array, int low, int high)
-{
+void QuickSort(int* array, int low, int high) {
     int left = low;
     int right = high;
     int middle = array[(left + right) / 2];
@@ -50,10 +50,9 @@ void QuickSort(int* array, int low, int high)
     if (left < high)
         QuickSort(array, left, high);
 }
-
 void BubbleSort(int* Array, int Size_array) {
     int tmp;
-    /*for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 9; j++) {
             if (Array[j] > Array[j + 1]) {
                 tmp = Array[j]; // создали дополнительную переменную
@@ -61,23 +60,9 @@ void BubbleSort(int* Array, int Size_array) {
                 Array[j + 1] = tmp; // значения элементов
             }
         }
-    }*/
-    for (int i = 1; i < Size_array; i++) {
-        for (int j = Size_array - 1; j >= i; j--) {
-            if (Array[j - 1] > Array[j]) {
-                tmp = Array[j - 1];
-                Array[j - 1] = Array[j];
-                Array[j] = tmp;
-            }
-        }
     }
 }
-
-
-
-
-void InsertionSort(int* array, int arraySize)
-{
+void InsertionSort(int* array, int arraySize) {
     int temp, i, j;
     for (i = 1; i < arraySize; i++)
     {
@@ -93,16 +78,64 @@ void InsertionSort(int* array, int arraySize)
     }
 }
 
+
+
+
+
+
+void swapElements(int& element1, int& element2)
+{
+    int tempVar = element1;
+    element1 = element2;
+    element2 = tempVar;
+}
+
+bool isArraySorted(int* array, int Size_array)
+{
+    for (int i = 0; i < Size_array - 1; i++) {
+
+        if (array[i] > array[i + 1])
+            return false;
+    }
+    return true;
+}
+
+void BogoSort(int* array, int Size_array) {
+    int j = Size_array;
+    while (!isArraySorted(array, Size_array)) {
+        while (Size_array > 1) {
+            int r = rand() % Size_array;
+            Size_array -= 1;
+            swapElements(array[r], array[Size_array]);
+        }
+        Size_array = j;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main() {
-
-    //srand(time(NULL));
-
-    for (int i = 0; i < 10; i++) {
-        srand(time(NULL));
+    srand(time(NULL));
+/*
+    for (int i = 0; i < 1; i++) {
         double Average_1, Average_2, Average_3;
         Average_1 = Average_2 = Average_3 = 0;
 
-        /*for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             int* array = new int[10];
             for (int index = 0; index < 10; index++) {
                 array[index] = rand() % 1000;
@@ -123,9 +156,9 @@ int main() {
             else { std::cout << "Good job!!!\n";  LuckyPanch++; }
             delete[] array;
             std::cout << std::endl;
-        }*/
+        }
 
-        for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 10; i++) {
 
             int* array_1 = new int[1000];
             int* array_2 = new int[1000];
@@ -202,8 +235,28 @@ int main() {
 
         }
 
-        std::cout << Average_1 / 100 << "\t" << Average_2 / 100 << "\t" << Average_3 / 100 << "\n";
+        std::cout << Average_1 / 10 << "\t" << Average_2 / 10 << "\t" << Average_3 / 10 << "\n";
     }
+    */
+
+    // больной ублюдок, не трогай значение величины массива, если сделать больше 10
+    // То тебе и твоему компьютеру конец.
+    auto* array_1 = new int[10];
+
+    for (int index = 0; index < 10; index++) {
+        array_1[index] = rand() % 100;
+       
+    }
+    /*for (int index = 0; index < 100; index++) {
+        std::cout << array_1[index] << ' ';
+    }*/
+    std::cout << std::endl;
+    BogoSort(array_1, 10);
+    for (int index = 0; index < 10; index++) {
+        std::cout << array_1[index]<< ' ';
+    }
+    std::cout << std::endl;
+    
     system("pause");
     return 0;
 }

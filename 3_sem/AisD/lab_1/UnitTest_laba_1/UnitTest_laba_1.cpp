@@ -464,7 +464,6 @@ public:
 		}
 		Assert::IsTrue(b);//
 	}
-
 	TEST_METHOD(reverse_normal_list){
 		List list(12);
 		for (int index = 0; index < 4; index++) {//12,13,14,15,16
@@ -477,13 +476,11 @@ public:
 		Assert::AreEqual(list.at(3), 13);
 		Assert::AreEqual(list.at(4), 12);
 	}
-
 	TEST_METHOD(reverse_blank_list) {
 		List list;
 		list.reverse();
 		Assert::IsTrue(list.isEmpty());
 	}
-
 	TEST_METHOD(reverse_small_list) {
 		List list(12);
 		list.reverse();

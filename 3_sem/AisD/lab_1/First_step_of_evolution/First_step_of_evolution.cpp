@@ -35,7 +35,6 @@ int main() {
 
 	std::cout << "Delete full list.\n";
 	list.clear();
-	std::cout << list.get_size();
 
 	List list_1(12);
 	list_1.push_front(14);

@@ -2,7 +2,6 @@
 #include <time.h>
 #include <chrono>
 #include "Types_of_sorting.h"
-#include "Called_sorting.h"
 
 int main() {
     // For bogosort:
@@ -11,7 +10,7 @@ int main() {
     // Then you and your computer are died ╰(▔∀▔)╯.
     srand(time(NULL));
 
-    Comparison_of_sortings();
+    //Comparison_of_sortings();
     CountingSort_called();
     BogoSort_called();
 

@@ -10,7 +10,7 @@ int main() {
     // Then you and your computer are died ╰(▔∀▔)╯.
     srand(time(NULL));
 
-    //Comparison_of_sortings();
+    Comparison_of_sortings();
     CountingSort_called();
     BogoSort_called();
 

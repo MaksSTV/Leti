@@ -74,18 +74,18 @@ void CountingSort(char* array, int size) {
         if (array[index] > high_number) {
             high_number = array[index];
         }
-    }
+    }// O(N)
 
     auto* count_array = new int[high_number + 1];
     for (int index = 0; index <= high_number; index++)
     {
         count_array[index] = 0;
-    }
+    }// O(N)
     for (int index = 0; index < size; index++)
     {
         temp = array[index];
         count_array[temp]++;
-    }
+    }// O(N)
     int index = 0;
     for (int jndex = 0; jndex <= high_number; jndex++) {
         while (count_array[jndex] != 0) {
@@ -93,7 +93,7 @@ void CountingSort(char* array, int size) {
             count_array[jndex]--;
             index++;
         }
-    }
+    }// O(nlog(n))
     delete[] count_array;
 }
 

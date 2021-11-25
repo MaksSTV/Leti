@@ -51,6 +51,49 @@ class Heap {
 			this->height = 1;
 			this->Last_fullness = 1;
 		}
+
+		Elem* LastParent(int layer) {
+
+			Elem* parent_last = root;
+
+			int temp_layer = layer;
+			int temp_Last_fullness = this->Last_fullness;
+
+			if (this->Last_fullness > layer){
+				temp_layer = temp_layer * 2;
+			}
+
+			while (temp_layer != 2) {
+				if (temp_Last_fullness <= (temp_layer / 2)) {
+					parent_last = parent_last->next_left;
+					temp_layer = temp_layer / 2;
+				}
+				else {
+					parent_last = parent_last->next_right;
+					temp_Last_fullness = temp_Last_fullness - temp_layer / 2;
+					temp_layer = temp_layer / 2;
+				}
+			}
+
+			return parent_last;
+		}
+
+		void siftDown(Elem* temp){}
+
+		void siftUp(Elem* temp){}
+
+		void Heapify(Elem* temp) {	
+			if (temp->parent == NULL) {
+				siftDown(temp);
+			}
+			else 
+				if ((temp->data) > (temp->parent->data)) {
+					siftUp(temp);
+				}
+			else {
+				siftDown(temp);
+			}
+		}
 	
 		void insert(int key) {
 			if (root == NULL) {
@@ -77,7 +120,7 @@ class Heap {
 					last_layer = last_layer * 2;
 				}
 
-				// cur =  найти крайнего родителя и вставить влево или вправо
+				cur = LastParent(last_layer); // найти крайнего родителя и вставить влево или вправо
 
 				if (cur->next_left == NULL) {
 					cur->next_left = temp;
@@ -88,7 +131,7 @@ class Heap {
 					temp->parent = cur;
 				}
 
-				//Heapfy(temp)
+				//Heapify(temp);
 			}
 		}
 
@@ -108,7 +151,11 @@ class Heap {
 
 int main()
 {
-	
+	Heap flesh_heap(1);
+	flesh_heap.insert(2);
+	flesh_heap.insert(3);
+	flesh_heap.insert(4);
+	flesh_heap.insert(5);
 
 	system("pause");
 	return 0;

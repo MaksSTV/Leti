@@ -78,9 +78,60 @@ class Heap {
 			return parent_last;
 		}
 
-		void siftDown(Elem* temp){}
+		void siftDown(Elem* temp){
 
-		void siftUp(Elem* temp){}
+			if (temp->next_left == NULL && temp->next_right == NULL) {
+				return;
+			}
+
+			Elem* max = temp;
+
+			if (temp->next_right == NULL) {
+				if (temp->data < temp->next_left->data) {
+					max = temp->next_left;
+				}
+				else {
+					return;
+				}
+			}
+
+			if (temp->next_left != NULL && temp->next_right != NULL) {
+				if (temp->data < temp->next_right->data || temp->data < temp->next_left->data) {
+					if (temp->next_left->data > temp->next_right->data) {
+						max = temp->next_left;
+					}
+					else {
+						max = temp->next_right;
+					}
+				}
+				else {
+					return;
+				}
+			}
+
+			int swap = temp->data;
+			temp->data = max->data;
+			max->data = swap;
+			siftDown(max);
+
+		}
+
+		void siftUp(Elem* temp){
+			if (temp->parent == NULL) {
+				return;
+			}
+			else {
+				if (temp->data > temp->parent->data) {
+					int swap = temp->data;
+					temp->data = temp->parent->data;
+					temp->parent->data = swap;
+					siftUp(temp->parent);
+				}
+				else {
+					return;
+				}
+			}
+		}
 
 		void Heapify(Elem* temp) {	
 			if (temp->parent == NULL) {
@@ -131,7 +182,7 @@ class Heap {
 					temp->parent = cur;
 				}
 
-				//Heapify(temp);
+				Heapify(temp);
 			}
 		}
 
@@ -153,9 +204,13 @@ int main()
 {
 	Heap flesh_heap(1);
 	flesh_heap.insert(2);
-	flesh_heap.insert(3);
+	flesh_heap.insert(30);
 	flesh_heap.insert(4);
 	flesh_heap.insert(5);
+	flesh_heap.insert(100);
+	flesh_heap.insert(40);
+	flesh_heap.insert(6);
+	flesh_heap.insert(7);
 
 	system("pause");
 	return 0;

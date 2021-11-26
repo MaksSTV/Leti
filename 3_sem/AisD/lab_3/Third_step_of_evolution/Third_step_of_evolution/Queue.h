@@ -1,15 +1,18 @@
 #ifndef QUEUE_H
 #pragma once
 
+template <class T>
 class Queue {
 private:
 
 	class Elem_queue {
-	private:
-		Elem_queue* next;
-		int data;
+	
 	public:
-		Elem_queue(int data = 0, Elem_queue* next = NULL) : data(data), next(next) {}
+
+		Elem_queue* next;
+		T data;
+
+		Elem_queue(T data = 0, Elem_queue* next = NULL) : data(data), next(next) {}
 		~Elem_queue() = default;
 
 		void setNext(Elem_queue* newnext) {
@@ -20,7 +23,7 @@ private:
 			return this->next;
 		}
 
-		int getElemdata() {
+		T getElemdata() {
 			return this->data;
 		}
 	};
@@ -34,13 +37,13 @@ public:
 		this->last = this->head;
 	}
 
-	Queue(int data) { // create list with one element
+	Queue(T data) { // create list with one element
 		Elem_queue* elem = new Elem_queue(data);
 		this->head = elem;
 		this->last = elem;
 	}
 
-	void enqueue(int item) { // new last elem
+	void enqueue(T item) { // new last elem
 		if (head == NULL) {
 			Elem_queue* elem = new Elem_queue(item);
 			this->head = elem;
@@ -88,6 +91,14 @@ public:
 		}
 		std::cout << std::endl;
 	}
+
+	T front();
 };
+
+template<class T>
+inline T Queue<T>::front()
+{
+	return head->getElemdata();
+}
 
 #endif // !QUEUE_H

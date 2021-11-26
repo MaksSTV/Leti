@@ -69,7 +69,7 @@ class Heap {
 
 		private:
 
-			Stack* stack;
+			Stack<Elem*>* stack;
 
 			Elem* cur;
 		};
@@ -90,7 +90,7 @@ class Heap {
 
 		private:
 
-			Queue* queue;
+			Queue<Elem*>* queue;
 
 			Elem* cur;
 		};
@@ -242,9 +242,37 @@ class Heap {
 			}
 		}
 
-		bool contains(int key){
-			
-			
+		bool contains(int data)
+		{
+			try
+			{
+				findNode(data);
+				return true;
+			}
+			catch (std::invalid_argument)
+			{
+				return false;
+			}
+		}
+
+		Elem* findNode(int data)
+		{
+			dft_iterator* new_dft_iterator;
+			new_dft_iterator = new dft_iterator(root);
+			Elem* foundNode = nullptr;
+
+			while (new_dft_iterator->has_next())
+			{
+				foundNode = new_dft_iterator->cur;
+
+				if (new_dft_iterator->next() == data)
+				{
+					delete new_dft_iterator;
+					return foundNode;
+				}
+			}
+			delete new_dft_iterator;
+			throw std::invalid_argument("Element not found!");
 		}
 
 		void remove(int key){
@@ -253,46 +281,124 @@ class Heap {
 
 		
 
-		//Iterator create_dft_iterator();
-
-		//Iterator create_bft_iterator();
-
 };
 
 
-Heap::dft_iterator::dft_iterator(Elem* root)
-{
+Heap::dft_iterator::dft_iterator(Elem* root) {
 	cur = root;
-	stack = new Stack();
+	stack = new Stack<Elem*>();
 }
 
-Heap::bft_iterator::bft_iterator(Elem* root)
-{
+Heap::bft_iterator::bft_iterator(Elem* root) {
 	cur = root;
-	queue = new Queue();
+	queue = new Queue<Elem*>();
 }
 
-Heap::dft_iterator::~dft_iterator()
-{
+Heap::dft_iterator::~dft_iterator() {
 	delete stack;
 }
 
-Heap::bft_iterator::~bft_iterator()
-{
+Heap::bft_iterator::~bft_iterator() {
 	delete queue;
 }
 
+bool Heap::dft_iterator::has_next() {
+	return cur != NULL;
+}
+
+int Heap::dft_iterator::next() {
+	if (!has_next()) {
+		throw std::out_of_range("No more elements");
+	}
+
+	int temp = cur->data;
+
+	if (cur->next_right != NULL) {
+		stack->push(cur->next_right);
+	}
+
+	if (cur->next_left != NULL) {
+		cur = cur->next_left;
+	}
+	else {
+		try {
+			cur = stack->peek();
+			stack->pop();
+		}
+		catch (std::out_of_range) {
+			cur = NULL;
+		}
+	}
+
+	return temp;
+}
+
+bool Heap::bft_iterator::has_next() {
+	return cur != NULL;
+}
+
+int Heap::bft_iterator::next() {
+	if (!has_next()) {
+		throw std::out_of_range("No more elements");
+	}
+
+	int temp = cur->data;
+
+	if (cur->next_left != NULL) {
+		queue->enqueue(cur->next_left);
+	}
+
+	if (cur->next_right != NULL) {
+		queue->enqueue(cur->next_right);
+	}
+
+	queue->dequeue();
+
+	try {
+		cur = queue->front();
+	}
+	catch (std::out_of_range) {
+		cur = NULL;
+	}
+
+	return temp;
+}
+
+
 int main()
 {
+	
 	Heap flesh_heap(1);
 	flesh_heap.insert(2);
+	std::cout << "1\n";
 	flesh_heap.insert(30);
-	flesh_heap.insert(4);
-	flesh_heap.insert(5);
-	flesh_heap.insert(100);
-	flesh_heap.insert(40);
-	flesh_heap.insert(6);
-	flesh_heap.insert(7);
+	flesh_heap.insert(4); std::cout << "1\n";
+	flesh_heap.insert(5); std::cout << "1\n";
+	flesh_heap.insert(100); std::cout << "1\n";
+	flesh_heap.insert(40); std::cout << "1\n";
+	flesh_heap.insert(6); std::cout << "1\n";
+	flesh_heap.insert(7); std::cout << "5\n";
+
+	if (flesh_heap.contains(4)) {
+		std::cout << "Yes\n";
+	}
+	else
+		std::cout << "Fuck\n";
+
+	if (flesh_heap.contains(2)) {
+		std::cout << "Yes\n";
+	}
+	else
+		std::cout << "Fuck\n";
+
+	if (flesh_heap.contains(5)) {
+		std::cout << "Yes\n";
+	}
+	else
+		std::cout << "Fuck\n";
+	
+
+	
 
 	system("pause");
 	return 0;

@@ -142,6 +142,7 @@
     <ClCompile Include="Third_step_of_evolution.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Iterator.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>

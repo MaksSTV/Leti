@@ -3,14 +3,17 @@
 
 #include<iostream>
 
+template <class T>
 class Stack {
 private:
 
 	class Elem_stack {
-	private:
+	
+	public:
+
 		Elem_stack* next;
 		int data;
-	public:
+
 		Elem_stack(int data = 0, Elem_stack* next = NULL) : data(data), next(next) {}
 		~Elem_stack() = default;
 

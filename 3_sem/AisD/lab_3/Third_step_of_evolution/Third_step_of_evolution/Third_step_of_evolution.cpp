@@ -5,17 +5,19 @@
 
 #include "Queue.h"
 #include "Stack.h"
+#include "Iterator.h"
 
 /*
 *					Wish_List
-*	- Сделать добавление элемента, пока просто по очереди.
-*	- Вывод всей кучи рекурсией, 0_о.
+*	- Сделать добавление элемента, пока просто по очереди. ++
+*	- Вывод всей кучи рекурсией, 0_о. нахер 
 *	- Удаление листьев.
 *	- Поиск по индексу.
 *	- Удаление по индексу.
 *	- Итератор, че это ?
 * 
 */
+
 
 
 class Heap {
@@ -39,6 +41,60 @@ class Heap {
 		int Last_fullness; // how many nodes do we have on last_layer
 
 	public:
+
+		Iterator* create_dft_iterator() { // DTF
+			return new dft_iterator(root);
+		}
+
+		Iterator* create_bft_iterator() { // BFT
+			bft_iterator* new_bft_iterator = new bft_iterator(root);
+			new_bft_iterator->queue->enqueue(root);
+			return new_bft_iterator;
+		}
+		
+
+		class dft_iterator : public Iterator
+		{
+		public:
+
+			friend class Heap;
+
+			dft_iterator(Elem*);
+
+			~dft_iterator();
+
+			bool has_next() override;
+
+			int next() override;
+
+		private:
+
+			Stack* stack;
+
+			Elem* cur;
+		};
+
+		class bft_iterator : public Iterator
+		{
+		public:
+			friend class Heap;
+
+			bft_iterator(Elem*);
+
+			~bft_iterator();
+
+			bool has_next() override;
+
+			int next() override;
+
+
+		private:
+
+			Queue* queue;
+
+			Elem* cur;
+		};
+
 		Heap() { // create blank list
 			this->root = NULL;
 			this->height = 0;
@@ -191,7 +247,11 @@ class Heap {
 			
 		}
 
-		void remove(int key){}
+		void remove(int key){
+			
+		}
+
+		
 
 		//Iterator create_dft_iterator();
 
@@ -199,6 +259,28 @@ class Heap {
 
 };
 
+
+Heap::dft_iterator::dft_iterator(Elem* root)
+{
+	cur = root;
+	stack = new Stack();
+}
+
+Heap::bft_iterator::bft_iterator(Elem* root)
+{
+	cur = root;
+	queue = new Queue();
+}
+
+Heap::dft_iterator::~dft_iterator()
+{
+	delete stack;
+}
+
+Heap::bft_iterator::~bft_iterator()
+{
+	delete queue;
+}
 
 int main()
 {

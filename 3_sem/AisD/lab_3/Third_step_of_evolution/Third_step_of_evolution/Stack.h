@@ -4,18 +4,19 @@
 #include<iostream>
 
 template <class T>
-class Stack {
+class Stack
+{
 private:
-	
 
-	class Elem_stack {
-	
-	public:
-
-		Elem_stack* next;
+	class Elem_stack
+	{
+	private:
 		T data;
+		Elem_stack* next;
 
-		Elem_stack(T data = 0, Elem_stack* next = NULL) : data(data), next(next) {}
+	public:
+		
+		Elem_stack(T data, Elem_stack* next = NULL) : data(data), next(next) {}
 		~Elem_stack() = default;
 
 		void setNext(Elem_stack* newnext) {
@@ -31,136 +32,56 @@ private:
 		}
 	};
 
-	Elem_stack* head, * last;
-
+	Elem_stack* head;
 public:
-
 	Stack();
-	Stack(T data);
 
-	void push(T item);
+	~Stack();
+
 	void pop();
-	T peek();
+
+	void push(T data);
+
 	bool isEmpty();
-	size_t size();
-	void print();
-	/*
-	Stack() { // create blank list
-		this->head = NULL;
-		this->last = this->head;
-	}
 
-	Stack(int data) { // create list with one element
-		Elem_stack* elem = new Elem_stack(data);
-		this->head = elem;
-		this->last = elem;
-	}
-
-	void push(int item) {
-		if (head == NULL) {
-			Elem_stack* elem = new Elem_stack(item);
-			this->head = elem;
-			this->last = elem;
-		}
-		else {
-			Elem_stack* temp = new Elem_stack(item);
-			Elem_stack* cur = head; // 1
-			this->head = temp; // 2
-			this->head->setNext(cur); // 3
-		}
-	}
-
-	void pop() {
-		Elem_stack* cur = head;
-		head = head->getNext();
-		//std::cout << cur->getElemdata() << "\n";
-		delete cur;
-	}
-
-	int peek() {
-		return head->getElemdata();
-	}
-
-	bool isEmpty() {
-		if (head == NULL) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	size_t size() {
-		Elem_stack* cur = head;
-		int count = 0;
-		while (cur != NULL) {
-			count++;
-			cur = cur->getNext();
-		}
-		return count;
-	}
-
-	void print() { // FIX ME!! Need remake, after doing methods peek and size
-		Elem_stack* cur = head;
-		while (cur != NULL) {
-			std::cout << cur->getElemdata() << "\n";
-			cur = cur->getNext();
-		}
-		std::cout << std::endl;
-	}
-	*/
+	T peek();
 };
 
-
-
-template<class T>
-inline Stack<T>::Stack()
+template <class T> Stack<T>::Stack()
 {
-	this->head = NULL;
-	this->last = this->head;
+	head = NULL;
 }
 
-template<class T>
-inline Stack<T>::Stack(T data)
+template <class T>
+Stack<T>::~Stack()
 {
-	Elem_stack* elem = new Elem_stack(data);
-	this->head = elem;
-	this->last = elem;
+	while (!isEmpty()) {
+		pop();
+	}
 }
 
-template<class T>
-inline void Stack<T>::push(T item)
+template <class T> void Stack<T>::push(T data)
 {
-	if (head == NULL) {
-		Elem_stack* elem = new Elem_stack(item);
-		this->head = elem;
-		this->last = elem;
+	Elem_stack* temp = new Elem_stack(data);
+	Elem_stack* cur = head; // 1
+	this->head = temp; // 2
+	this->head->setNext(cur); // 3
+
+}
+
+template <class T> void Stack<T>::pop()
+{
+	if (isEmpty()) {
+		throw std::out_of_range("No more elements");
 	}
 	else {
-		Elem_stack* temp = new Elem_stack(item);
-		Elem_stack* cur = head; // 1
-		this->head = temp; // 2
-		this->head->setNext(cur); // 3
+		Elem_stack* temp = head;
+		head = head->getNext();
+		delete temp;
 	}
 }
 
-template<class T>
-inline void Stack<T>::pop()
-{
-	Elem_stack* cur = head;
-	head = head->getNext();
-
-	delete cur;
-}
-
-template<class T>
-inline T Stack<T>::peek()
-{
-	return head->getElemdata();
-}
-
-template<class T>
-inline bool Stack<T>::isEmpty()
+template <class T> bool Stack<T>::isEmpty()
 {
 	if (head == NULL) {
 		return true;
@@ -170,26 +91,14 @@ inline bool Stack<T>::isEmpty()
 	}
 }
 
-template<class T>
-inline size_t Stack<T>::size()
+template <class T> T Stack<T>::peek()
 {
-	Elem_stack* cur = head;
-	int count = 0;
-	while (cur != NULL) {
-		count++;
-		cur = cur->getNext();
+	if (isEmpty()) {
+		throw std::out_of_range("Empty");
 	}
-	return count;
-}
+	else {
+		return head->getElemdata();
+	}
 
-template<class T>
-inline void Stack<T>::print()
-{
-	Elem_stack* cur = head;
-	while (cur != NULL) {
-		std::cout << cur->getElemdata() << "\n";
-		cur = cur->getNext();
-	}
-	std::cout << std::endl;
 }
 #endif // !STACK_H

@@ -42,11 +42,11 @@ class Heap {
 
 	public:
 
-		Iterator* create_dft_iterator() { // DTF
+		Iterator* create_dft_iterator() { 
 			return new dft_iterator(root);
 		}
 
-		Iterator* create_bft_iterator() { // BFT
+		Iterator* create_bft_iterator() {
 			bft_iterator* new_bft_iterator = new bft_iterator(root);
 			new_bft_iterator->queue->enqueue(root);
 			return new_bft_iterator;
@@ -212,8 +212,7 @@ class Heap {
 			else {
 				Elem* temp = new Elem(key);
 				Elem* cur = root;
-				// организовать добавление слева направо
-
+				
 				int last_layer = 1;
 				this->Last_fullness++;
 
@@ -227,7 +226,7 @@ class Heap {
 					last_layer = last_layer * 2;
 				}
 
-				cur = LastParent(last_layer); // найти крайнего родителя и вставить влево или вправо
+				cur = LastParent(last_layer);
 
 				if (cur->next_left == NULL) {
 					cur->next_left = temp;
@@ -242,31 +241,26 @@ class Heap {
 			}
 		}
 
-		bool contains(int data)
-		{
-			try
-			{
-				findNode(data);
+		bool contains(int data) {
+			try {
+				findElem(data);
 				return true;
 			}
-			catch (std::invalid_argument)
-			{
+			catch (std::invalid_argument) {
 				return false;
 			}
 		}
 
-		Elem* findNode(int data)
-		{
+		Elem* findElem(int data) {
+			Elem* foundNode = NULL;
+
 			dft_iterator* new_dft_iterator;
 			new_dft_iterator = new dft_iterator(root);
-			Elem* foundNode = nullptr;
-
-			while (new_dft_iterator->has_next())
-			{
+			
+			while (new_dft_iterator->has_next()) {
 				foundNode = new_dft_iterator->cur;
 
-				if (new_dft_iterator->next() == data)
-				{
+				if (new_dft_iterator->next() == data) {
 					delete new_dft_iterator;
 					return foundNode;
 				}
@@ -276,10 +270,54 @@ class Heap {
 		}
 
 		void remove(int key){
+
+			Elem* delete_elem = findElem(key);
+			
+			
+			if (root->next_left == NULL && root->next_right == NULL) {
+				delete root;
+				root = NULL;
+				height = 0; Last_fullness = 0;
+			}
+			
+			int last_layer = 1;
+
+			for (int index = 0; index < height - 1; index++) {
+				last_layer = last_layer * 2; // last_layer = 2 ^ (height - 1)
+			}
+
+			Elem* last_elem = LastParent(last_layer);
+			
+			if (last_elem->next_right != NULL) {
+				last_elem = last_elem->next_right; // remember last elem
+				last_elem->parent->next_right = NULL; // detele last elem
+				Last_fullness--;
+			}
+			else {
+				last_elem = last_elem->next_left; // remember last elem
+				last_elem->parent->next_left = NULL; // detele last elem
+				Last_fullness--;
+			}
+
+			if (Last_fullness == 0) {
+				Last_fullness = 1;
+				height--;
+				for (int index = 0; index < height - 1; index++) {
+					Last_fullness = Last_fullness * 2;
+				}
+
+			}
+			if (delete_elem == last_elem) { delete last_elem; }
+			else {
+				int swap = last_elem->data;
+				last_elem->data = delete_elem->data;
+				delete_elem->data = swap;
+				delete last_elem;
+
+				Heapify(delete_elem);
+			}
 			
 		}
-
-		
 
 };
 
@@ -379,23 +417,25 @@ int main()
 	flesh_heap.insert(6); std::cout << "1\n";
 	flesh_heap.insert(7); std::cout << "5\n";
 
+
 	if (flesh_heap.contains(4)) {
-		std::cout << "Yes\n";
+		std::cout << "Yes, Elem if found\n";
 	}
 	else
-		std::cout << "Fuck\n";
+		std::cout << "Error!!! Not found\n";
+	if (flesh_heap.contains(4000)) {
+		std::cout << "Yes, Elem if found\n";
+	}
+	else
+		std::cout << "Error!!! Not found\n";
 
-	if (flesh_heap.contains(2)) {
-		std::cout << "Yes\n";
-	}
-	else
-		std::cout << "Fuck\n";
-
-	if (flesh_heap.contains(5)) {
-		std::cout << "Yes\n";
-	}
-	else
-		std::cout << "Fuck\n";
+	flesh_heap.remove(6);
+	flesh_heap.remove(1);
+	flesh_heap.remove(5);
+	flesh_heap.remove(40);
+	flesh_heap.remove(7);
+	
+	std::cout << "Yes, Elem if found\n";
 	
 
 	

@@ -1,104 +1,99 @@
 #ifndef QUEUE_H
 #pragma once
 
+#include <iostream>
+
+using namespace std;
 template <class T>
-class Queue {
+class Queue
+{
 private:
-
-	class Elem_queue {
-	
+	class Elem_queue
+	{
+	private:
+		
 	public:
-
-		Elem_queue* next;
-		T data;
-
 		Elem_queue(T data = 0, Elem_queue* next = NULL) : data(data), next(next) {}
-		~Elem_queue() = default;
-
-		void setNext(Elem_queue* newnext) {
-			this->next = newnext;
-		}
-
-		Elem_queue* getNext() {
-			return this->next;
-		}
-
-		T getElemdata() {
-			return this->data;
-		}
+		T data;
+		Elem_queue* next;
+		
 	};
 
-	Elem_queue* head, * last;
+	Elem_queue* head, *last;
 
 public:
+	Queue();
 
-	Queue() { // create blank list
-		this->head = NULL;
-		this->last = this->head;
-	}
+	~Queue();
 
-	Queue(T data) { // create list with one element
-		Elem_queue* elem = new Elem_queue(data);
-		this->head = elem;
-		this->last = elem;
-	}
+	void dequeue();
 
-	void enqueue(T item) { // new last elem
-		if (head == NULL) {
-			Elem_queue* elem = new Elem_queue(item);
-			this->head = elem;
-			this->last = elem;
-		}
-		else {
-			Elem_queue* temp = new Elem_queue(item);
-			Elem_queue* cur = last; // 1
-			this->last = temp; // 2
-			cur->setNext(last); // 3
-		}
-	}
+	void enqueue(T);
 
-	void dequeue() { // delete head elem
-		Elem_queue* cur = head;
-		head = head->getNext();
-		delete cur;
-	}
-
-
-	bool isEmpty() {
-		if (head == NULL) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	size_t size() {
-		Elem_queue* cur = head;
-		int count = 0;
-		while (cur != NULL) {
-			count++;
-			cur = cur->getNext();
-		}
-		return count;
-	}
-
-	void print() { // FIX ME!! Need remake, after doing methods peek and size
-		Elem_queue* cur = head;
-		while (cur != NULL) {
-			std::cout << cur->getElemdata() << "\n";
-			cur = cur->getNext();
-		}
-		std::cout << std::endl;
-	}
+	bool isEmpty();
 
 	T front();
+
 };
 
-template<class T>
-inline T Queue<T>::front()
+template <class T> Queue<T>::Queue()
 {
-	return head->getElemdata();
+	head = NULL;
+	last = NULL;
+}
+
+template <class T> Queue<T>::~Queue()
+{
+	while (!isEmpty()){
+		dequeue();
+	}
+}
+
+template <class T> void Queue<T>::enqueue(T data)
+{
+	Elem_queue* temp = new Elem_queue(data);
+	if (isEmpty())
+	{
+		head = temp;
+		last = head;
+	}
+	else
+	{
+		last->next = temp;
+		last = temp;
+	}
+}
+
+template <class T> void Queue<T>::dequeue()
+{
+	if (isEmpty()) {
+		throw out_of_range("No more elements");
+	}
+	else {
+		Elem_queue* temp = head;
+		head = head->next;
+		delete temp;
+	}
+}
+
+template <class T> bool Queue<T>::isEmpty()
+{
+	if (head == NULL) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+template <class T> T Queue<T>::front()
+{
+	if (isEmpty()) {
+		throw out_of_range("Empty");
+	}
+	else {
+		return head->data;
+	}
 }
 
 #endif // !QUEUE_H

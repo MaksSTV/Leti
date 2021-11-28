@@ -15,21 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Third_step_of_evolution.cpp">
+    <ClCompile Include="UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Heap.h">
+    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

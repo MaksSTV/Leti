@@ -11,21 +11,25 @@
 int main()
 {
 	
-	Heap flesh_heap/*(1)*/;
+	Heap flesh_heap(1);
 	Iterator* dft_1, *dft_2, *dft_3;
 	Iterator* bft_1, *bft_2;
 
-	/*flesh_heap.insert(2);
+	flesh_heap.insert(2);
 	flesh_heap.insert(30);
 	flesh_heap.insert(4); 
-	flesh_heap.insert(5); 
+	flesh_heap.insert(6); 
+	flesh_heap.insert(6);
+	flesh_heap.insert(8);
+	flesh_heap.insert(4);
+	flesh_heap.insert(5);
 	flesh_heap.insert(100); 
 	flesh_heap.insert(40); 
 	flesh_heap.insert(6);
-	flesh_heap.insert(7); */
+	flesh_heap.insert(7); 
 
 
-	/*if (flesh_heap.contains(4)) {
+	if (flesh_heap.contains(4)) {
 		std::cout << "Yes, Elem if found\n";
 	}
 	else
@@ -34,7 +38,7 @@ int main()
 		std::cout << "Yes, Elem if found\n";
 	}
 	else
-		std::cout << "Error!!! Not found\n";*/
+		std::cout << "Error!!! Not found\n";
 
 	dft_1 = flesh_heap.create_dft_iterator();
 	bft_1 = flesh_heap.create_bft_iterator();

@@ -67,7 +67,7 @@ template <class T> void Stack<T>::push(T data)
 	this->head = temp; // 2
 	this->head->setNext(cur); // 3
 
-}
+}	  
 
 template <class T> void Stack<T>::pop()
 {

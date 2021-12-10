@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{74a777d9-602b-4280-8846-84a033e44ab5}</ProjectGuid>
+    <ProjectGuid>{5b0f8051-9f79-4b73-966e-bf33e7562424}</ProjectGuid>
     <RootNamespace>Eternaldespairantisocial</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

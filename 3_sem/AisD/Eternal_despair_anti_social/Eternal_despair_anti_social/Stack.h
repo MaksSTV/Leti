@@ -40,6 +40,8 @@ public:
 
 	void pop();
 
+	T next();
+
 	void push(T data);
 
 	bool isEmpty();
@@ -81,6 +83,16 @@ template <class T> void Stack<T>::pop()
 	}
 }
 
+template <class T> T Stack<T>::next()
+{
+	if (isEmpty()) {
+		throw std::out_of_range("No more elements");
+	}
+	else {
+		head = head->getNext();
+	}
+}
+
 template <class T> bool Stack<T>::isEmpty()
 {
 	if (head == NULL) {
@@ -101,4 +113,5 @@ template <class T> T Stack<T>::peek()
 	}
 
 }
+
 #endif // !STACK_H

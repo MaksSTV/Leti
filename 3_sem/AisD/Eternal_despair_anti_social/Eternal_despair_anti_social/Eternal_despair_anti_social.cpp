@@ -15,8 +15,8 @@ int main()
     std::string temp_parenthesis;
     Stack<std::string> prefix;
     Stack<std::string> buffer; // (cos(45) + sin(45))
-    std::string str1 = "(-e + -5) + (-e + sin(180))"; // "123 + (12 - 13.5) / (15 - 12)"; // +123/-1213.5-1512
-    std::string str2 = "(sqrt(4.5) - cbrt(45)) * (ctg(45) + tg(45)) - (5.5 - 88) - (cos(45) + sin(45)) - (ln(45) + log(45)) + (pi + e)"; // "123 + (12 - 13.5) / (15 - 12)"; // +123/-1213.5-1512
+    std::string str2 = "(sqrt(4.5) + -sqrt(4.5))"; // "123 + (12 - 13.5) / (15 - 12)"; // +123/-1213.5-1512
+    std::string str1 = "(sqrt(4.5) - cbrt(45)) * (ctg(45) + tg(45)) - (5.5 - 88) - (cos(45) + sin(45)) - (ln(45) + log(45)) + (pi + e)"; // "123 + (12 - 13.5) / (15 - 12)"; // +123/-1213.5-1512
 
 
     parenthesis_check(str1);
@@ -30,8 +30,11 @@ int main()
         calculation.push(prefix.peek());
         prefix.pop();
     }
-    std::cout << std::endl;
-    std::cout << calculation_in_prefix_form(calculation);
+
+    double x;
+    x = calculation_in_prefix_form(calculation);
+
+    std::cout << std::endl << x;
     
     
     system("pause");

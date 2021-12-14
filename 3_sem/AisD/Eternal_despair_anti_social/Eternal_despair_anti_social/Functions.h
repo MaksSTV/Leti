@@ -7,7 +7,12 @@
 #include "Stack.h"
 
 bool Approximate(double a, double b, double epsilon) {
-    return fabs(a - b) <= ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+    if (fabs(a) < fabs(b)) {
+        return fabs(a - b) <= fabs(b) * epsilon;
+    }
+    else {
+        return fabs(a - b) <= fabs(a) * epsilon;
+    }
 }
 
 int priority(std::string c)
@@ -97,7 +102,7 @@ void parenthesis_check(std::string c) {
 void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
     std::string temp;
     std::string temp_parenthesis;
-    // ты в муте чел....
+    
     for (int i = 0; i < str1.length(); i++) {
         if (((str1[i] == 's') && (str1[i + 1] == 'i') && (str1[i + 2] == 'n')) || ((str1[i] == '-') && (str1[i + 1] == 's') && (str1[i + 2] == 'i') && (str1[i + 3] == 'n'))) {
             //sin
@@ -106,7 +111,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++;// записали полность выражение sin(45)
+            i++;//  sin(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -120,7 +125,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение cos(45)
+            i++; //  cos(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -134,7 +139,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение tg(45)
+            i++; // tg(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -148,7 +153,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение ctg(45)
+            i++; // ctg(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -162,7 +167,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение ln(45)
+            i++; // ln(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -176,7 +181,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение log(45)
+            i++; // log(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -190,7 +195,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение sqrt(45)
+            i++; // sqrt(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -204,7 +209,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 i++;
             }
             temp += str1[i];
-            i++; // записали полность выражение cbrt(45)
+            i++; //  cbrt(45)
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -217,7 +222,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 temp += str1[i];
                 i++;
             }
-            // записали полность выражение pi
+            //  pi
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -230,7 +235,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
                 temp += str1[i];
                 i++;
             }
-            // записали полность выражение e
+            //  e
             stack.push(temp);
             temp = "\0";
             if (i >= str1.length()) {
@@ -262,7 +267,7 @@ void convert_string_to_stack(std::string str1, Stack<std::string>& stack) {
 }
 
 void convert_infix_to_prefix(Stack<std::string>& stack, Stack<std::string>& prefix, Stack<std::string>& buffer) {
-    // у меня нет проблем, кроме моей бошки
+    
     std::string temp;
     while (!stack.isEmpty()) {
         if ((!stack.isEmpty()) && (stack.peek() == "")) {
@@ -316,7 +321,7 @@ void convert_infix_to_prefix(Stack<std::string>& stack, Stack<std::string>& pref
             stack.pop();
         }
         std::cout << "5\n";
-        // клонит спать если только под утро
+       
     }
     while (!buffer.isEmpty()) {
         prefix.push(buffer.peek());
@@ -546,7 +551,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_1[i] != ')') {
-                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46)) {
+                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46) && (operator_1[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -584,7 +589,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_1[i] != ')') {
-                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46)) {
+                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46) && (operator_1[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -623,7 +628,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_1[i] != ')') {
-                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46)) {
+                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -662,7 +667,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_1[i] != ')') {
-                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46)) {
+                        if (((operator_1[i] < 48) || (operator_1[i] > 57)) && (operator_1[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -908,7 +913,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_2[i] != ')') {
-                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46)) {
+                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -946,7 +951,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_2[i] != ')') {
-                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46)) {
+                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -985,7 +990,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_2[i] != ')') {
-                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46)) {
+                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {
@@ -1024,7 +1029,7 @@ double calculation_in_prefix_form(Stack<std::string>& calculation) {
                         throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                     }
                     while (operator_2[i] != ')') {
-                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46)) {
+                        if (((operator_2[i] < 48) || (operator_2[i] > 57)) && (operator_2[i] != 46) && (operator_2[i] != 45)) {
                             throw std::invalid_argument("Error!!! Incorrect expression!!!\n");
                         }
                         else {

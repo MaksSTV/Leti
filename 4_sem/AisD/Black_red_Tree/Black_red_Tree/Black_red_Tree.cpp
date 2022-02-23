@@ -3,18 +3,83 @@
 
 #include <iostream>
 
+class Tree {
+	private:
+		class Elem {
+		public:
+			Elem* next_left, * next_right, * parent;
+			int* data;
+			
+			Elem(int *data = nullptr, Elem* next_left = nullptr, Elem* next_right = nullptr, Elem* parent = nullptr) :
+			next_left(next_left), next_right(next_right), parent(parent) {
+				int* digit = new int(*data);
+				this->data = digit;	
+			}
+			~Elem() = default;
+		};
+
+		Elem* root;
+
+	
+	 
+	public:
+		Tree() { // create blank list
+			this->root = NULL;
+		}
+
+		Tree(int data) { // create list with one element
+			Elem* elem = new Elem(&data);
+			this->root = elem;
+		}
+
+	
+
+	void insert(int key) {
+		if (root == NULL) {
+			Elem* elem = new Elem(&key);
+			this->root = elem;
+			
+		}
+		else {
+			Elem* temp = new Elem(&key);//8
+			Elem* cur = root;//10
+			
+			while (true) {
+				if (*temp->data > *cur->data) {
+					if (cur->next_right == NULL) {
+						cur->next_right = temp;
+						temp->parent = cur;
+						break;
+					}
+					else {
+						cur = cur->next_right;
+					}
+				}
+				else {
+					if (cur->next_left == NULL) {
+						cur->next_left = temp;
+						temp->parent = cur;
+						break;
+					}
+					else {
+						cur = cur->next_left;
+					}
+				}
+			}
+		}
+	}
+};
+
 int main()
 {
-    std::cout << "Hello World!\n";
+	Tree bucha(10);			// null-10-8-12
+
+	bucha.insert(8);
+	bucha.insert(12);
+	bucha.insert(11);
+	bucha.insert(6);
+	bucha.insert(3);
+
+	system("pause");
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

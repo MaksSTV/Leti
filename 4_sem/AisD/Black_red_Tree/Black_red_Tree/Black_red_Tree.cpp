@@ -34,7 +34,7 @@ class Tree {
 
 	
 
-	void insert(int key) {
+		void insert(int key) {
 		if (root == NULL) {
 			Elem* elem = new Elem(&key);
 			this->root = elem;
@@ -68,11 +68,67 @@ class Tree {
 			}
 		}
 	}
+
+		void leftRotate(Elem* y){
+		// now 'y' is son of 'x'
+		// and 'z' is grandPa of 'x'
+		Elem* x = y->parent;
+		Elem* z = x->parent;
+
+		if (y->next_left->data != nullptr) {
+			x->next_right = y->next_left;
+		}
+
+		if (z == nullptr) {
+			y = root;
+		}
+		else if (z->next_left == x) {
+			z->next_left = y;
+		}
+		else {
+			z->next_right = y;
+		}
+
+		x->parent = y;
+	}
+
+		void rightRotate(Elem* x){
+		// now 'x' is son of 'y'
+		// and 'z' is grandPa of 'y'
+		Elem* y = x->parent;
+		Elem* z = y->parent;
+
+		if (x->next_right->data != nullptr) {
+			y->next_left = x->next_right;
+		}
+
+		if (z == nullptr) {
+			x = root;
+		}
+		else if (z->next_right == y) {
+			z->next_right = x;
+		}
+		else {
+			z->next_left = x;
+		}
+
+		y->parent = x;
+	}
+
+		void leftRightRotate(Elem* y){
+		leftRotate(y);
+		rightRotate(y);
+	}
+
+		void rightLeftRotate(Elem* y){
+		rightRotate(y);
+		leftRotate(y);
+	}
 };
 
 int main()
 {
-	Tree bucha(10);			// null-10-8-12
+	Tree bucha(10);			
 
 	bucha.insert(8);
 	bucha.insert(12);

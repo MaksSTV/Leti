@@ -4,7 +4,7 @@
 #include <iostream>
 
 class Tree {
-	private:
+	public:
 		class Elem {
 		public:
 			Elem* next_left, * next_right, * parent;
@@ -21,8 +21,8 @@ class Tree {
 		Elem* root;
 
 	
-	 
-	public:
+		
+	
 		Tree() { // create blank list
 			this->root = NULL;
 		}
@@ -32,7 +32,21 @@ class Tree {
 			this->root = elem;
 		}
 
-	
+		int getLeftPointer() {
+			Elem* tmp = root;
+			tmp = tmp->next_left->next_left;
+			rightRotate(tmp);
+			return *tmp->data;
+		}
+
+		int getRightPointer() {
+			Elem* tmp = root;
+			tmp = tmp->next_left->next_right;
+			leftRotate(tmp);
+			return *tmp->data;
+		}
+
+		
 
 		void insert(int key) {
 		if (root == NULL) {
@@ -70,50 +84,79 @@ class Tree {
 	}
 
 		void leftRotate(Elem* y){
-		// now 'y' is son of 'x'
-		// and 'z' is grandPa of 'x'
-		Elem* x = y->parent;
-		Elem* z = x->parent;
+			// now 'y' is son of 'x'
+			// and 'z' is grandPa of 'x'
+			Elem* x = y->parent;
+			Elem* z = x->parent;
+			if (x->parent == nullptr) {
+				z = nullptr;
+			}
+			else {
+				z = x->parent;
+			}
 
-		if (y->next_left->data != nullptr) {
+			if (y->next_left != nullptr) {
+				x->next_right = y->next_left;
+			}
+
+			if (z == nullptr) {
+				y = root;
+			}
+			else if (z->next_left == x) {
+				z->next_left = y;
+				y->parent = z;
+			}
+			else {
+				z->next_right = y;		
+				y->parent = z;
+			}
+
 			x->next_right = y->next_left;
-		}
+			y->next_left = x;		// y->next_left = x->next_right;
+			x->parent = y;			// x->next_right = y;
+		}							// y->parent = x;
+		
+		//else if (x.parent.left == x)
+		//x.parent.left = y;
+		//else
+		//x.parent.right = y;
 
-		if (z == nullptr) {
-			y = root;
-		}
-		else if (z->next_left == x) {
-			z->next_left = y;
-		}
-		else {
-			z->next_right = y;
-		}
-
-		x->parent = y;
-	}
+		//y.right = x;
+		//x.parent = y;
 
 		void rightRotate(Elem* x){
-		// now 'x' is son of 'y'
-		// and 'z' is grandPa of 'y'
-		Elem* y = x->parent;
-		Elem* z = y->parent;
+			// now 'x' is son of 'y'
+			// and 'z' is grandPa of 'y'
+			Elem* y = x->parent;
+			Elem* z;
+			if (y->parent == nullptr) {
+				z = nullptr;
+			}
+			else {
+				z = y->parent;
+			}
 
-		if (x->next_right->data != nullptr) {
+			if (x->next_right != nullptr) {
+				y->next_left = x->next_right;
+			}
+
+			if (z == nullptr) {
+				x = root;		
+			}
+			else if (z->next_right == y) {
+				z->next_right = x;
+				x->parent = z;
+			}	
+			else {
+				z->next_left = x;
+				x->parent = z;
+			}
+
 			y->next_left = x->next_right;
-		}
+			x->next_right = y;
+			y->parent = x;
 
-		if (z == nullptr) {
-			x = root;
 		}
-		else if (z->next_right == y) {
-			z->next_right = x;
-		}
-		else {
-			z->next_left = x;
-		}
-
-		y->parent = x;
-	}
 
 		void leftRightRotate(Elem* y){
 		leftRotate(y);
@@ -135,6 +178,14 @@ int main()
 	bucha.insert(11);
 	bucha.insert(6);
 	bucha.insert(3);
+
+	int *a = new int(bucha.getLeftPointer());
+	
+	std::cout << *a << std::endl;
+
+	int* b = new int(bucha.getRightPointer());
+
+	std::cout << *b << std::endl;
 
 	system("pause");
 	return 0;

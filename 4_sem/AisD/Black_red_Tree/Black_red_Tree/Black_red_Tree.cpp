@@ -2,34 +2,70 @@
 //
 
 #include <iostream>
+#include <string>
 
+template <class T_key, class T_value>
 class Tree {
-	public:
+	private:
 		class Elem {
 		public:
 			Elem* next_left, * next_right, * parent;
-			int* data;
+			T_key* data;
+			T_value* val;
+			bool color;// 1 - red, 0 - black
+
 			
-			Elem(int *data = nullptr, Elem* next_left = nullptr, Elem* next_right = nullptr, Elem* parent = nullptr) :
-			next_left(next_left), next_right(next_right), parent(parent) {
-				int* digit = new int(*data);
-				this->data = digit;	
+			Elem(T_key* data = nullptr, T_value* val = nullptr, Elem* next_left = nullptr, Elem* next_right = nullptr, Elem* parent = nullptr, bool color = true) :
+				next_left(next_left), next_right(next_right), parent(parent), color(color){
+				
+				if ((data == nullptr) && (val != nullptr)) {
+					throw std::invalid_argument("Sorry, but you mom?");
+				}
+				if ((data != nullptr) && (val == nullptr)) {
+					throw std::invalid_argument("Sorry, but you daddy?");
+				}
+				
+				if ((data != nullptr)&&(val != nullptr)) {
+					T_key* digit = new T_key(*data);
+					this->data = digit;
+
+					T_value* parametr = new T_value(*val);
+					this->val = parametr;
+				}
+				else {
+					this->val = nullptr;
+					this->data = nullptr;
+				}
+
+				
 			}
+			
 			~Elem() = default;
 		};
 
 		Elem* root;
 
-	
+		//int* digit = new int(*data);
+		//this->data = digit;
 		
-	
+	public:
 		Tree() { // create blank list
-			this->root = NULL;
+			this->root = nullptr;
 		}
 
-		Tree(int data) { // create list with one element
-			Elem* elem = new Elem(&data);
+		Tree(T_key data, T_value val) { // create list with one element
+			Elem* elem = new Elem(&data, &val);
 			this->root = elem;
+			this->root->color = false; // root only black
+
+			Elem* right_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+			Elem* left_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+
+			root->next_left = left_nil;
+			left_nil->parent = root;
+
+			root->next_right = right_nil;
+			right_nil->parent = root;
 		}
 
 		int getLeftPointer() {
@@ -48,40 +84,60 @@ class Tree {
 
 		
 
-		void insert(int key) {
-		if (root == NULL) {
-			Elem* elem = new Elem(&key);
-			this->root = elem;
+		void insert(T_key key, T_value val) {// root = 8
+			if (root == nullptr) {
+				Elem* elem = new Elem(&key, &val);
+				this->root = elem;
+				this->root->color = false;
+
+				Elem* right_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+				Elem* left_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+
+				root->next_left = left_nil;
+				left_nil->parent = root;
+
+				root->next_right = right_nil;
+				right_nil->parent = root;
+			}
+			else {
+				Elem* temp = new Elem(&key, &val);//8
+				Elem* cur = root;//10
 			
-		}
-		else {
-			Elem* temp = new Elem(&key);//8
-			Elem* cur = root;//10
-			
-			while (true) {
-				if (*temp->data > *cur->data) {
-					if (cur->next_right == NULL) {
-						cur->next_right = temp;
-						temp->parent = cur;
-						break;
+				while (true) {
+					if (*temp->data > *cur->data) {
+						if (cur->next_right->data == nullptr) {
+							cur->next_right = temp;
+							temp->parent = cur;
+							break;
+						}
+						else {
+							cur = cur->next_right;
+						}
 					}
 					else {
-						cur = cur->next_right;
+						if (cur->next_left->data == nullptr) {
+							cur->next_left = temp;
+							temp->parent = cur;
+							break;
+						}
+						else {
+							cur = cur->next_left;
+						}
 					}
 				}
-				else {
-					if (cur->next_left == NULL) {
-						cur->next_left = temp;
-						temp->parent = cur;
-						break;
-					}
-					else {
-						cur = cur->next_left;
-					}
-				}
+
+				Elem* right_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+				Elem* left_nil = new Elem(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+
+				temp->next_left = left_nil;
+				left_nil->parent = temp;
+
+				temp->next_right = right_nil;
+				right_nil->parent = temp;
+
+
 			}
 		}
-	}
 
 		void leftRotate(Elem* y){
 			// now 'y' is son of 'x'
@@ -95,7 +151,7 @@ class Tree {
 				z = x->parent;
 			}
 
-			if (y->next_left != nullptr) {
+			if (y->next_left->data != nullptr) {
 				x->next_right = y->next_left;
 			}
 
@@ -115,14 +171,6 @@ class Tree {
 			y->next_left = x;		// y->next_left = x->next_right;
 			x->parent = y;			// x->next_right = y;
 		}							// y->parent = x;
-		
-		//else if (x.parent.left == x)
-		//x.parent.left = y;
-		//else
-		//x.parent.right = y;
-
-		//y.right = x;
-		//x.parent = y;
 
 		void rightRotate(Elem* x){
 			// now 'x' is son of 'y'
@@ -136,7 +184,7 @@ class Tree {
 				z = y->parent;
 			}
 
-			if (x->next_right != nullptr) {
+			if (x->next_right->data != nullptr) {
 				y->next_left = x->next_right;
 			}
 
@@ -171,13 +219,15 @@ class Tree {
 
 int main()
 {
-	Tree bucha(10);			
 
-	bucha.insert(8);
-	bucha.insert(12);
-	bucha.insert(11);
-	bucha.insert(6);
-	bucha.insert(3);
+	// не рабочая хуета
+	Tree<int, std::string> bucha(10, "Pudge");
+
+	bucha.insert(8, "Ancent_Apparation");
+	bucha.insert(12, "Mirana");
+	bucha.insert(11, "Troll_Warlord");
+	bucha.insert(6, "Spirit_Braker");
+	bucha.insert(3, "Zeus");
 
 	int *a = new int(bucha.getLeftPointer());
 	

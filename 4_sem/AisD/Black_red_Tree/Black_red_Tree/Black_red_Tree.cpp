@@ -19,6 +19,7 @@ int main()
 	bucha.insert(11, "Troll_Warlord");
 	bucha.insert(6, "Spirit_Braker");
 	bucha.insert(3, "Zeus");
+	bucha.insert(7, "Underlord");
 
 	int* a = new int(bucha.getLeftPointer());
 	std::cout << *a << std::endl;
@@ -26,7 +27,7 @@ int main()
 	int* b = new int(bucha.getRightPointer());
 	std::cout << *b << std::endl;
 
-	if (bucha.contains(11)) {
+	if (bucha.contains(3)) {
 		std::cout << "Yes, Elem if found\n";
 	}
 	else {

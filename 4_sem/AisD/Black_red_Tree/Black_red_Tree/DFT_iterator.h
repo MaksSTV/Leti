@@ -58,11 +58,11 @@ inline T_key dft_iterator<T_key, T_value>::next()
 
 	T_key temp = *(cur->data);
 
-	if (cur->next_right != nullptr) {
+	if (cur->next_right->data != nullptr) {
 		stack->push(cur->next_right);
 	}
 
-	if (cur->next_left != nullptr) {
+	if (cur->next_left->data != nullptr) {
 		cur = cur->next_left;
 	}
 	else {

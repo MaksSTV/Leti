@@ -101,42 +101,137 @@ void Tree<T_key, T_value>::leftRotate(Elem<T_key, T_value>* y)
 	y->next_left = x;		// x->next_right = y;
 	x->parent = y;			// y->parent = x;
 }
-							
-
 
 template<class T_key, class T_value>
 inline void Tree<T_key, T_value>::rightRotate(Elem<T_key, T_value>* x)
 {
 	// now 'x' is son of 'y'
-		// and 'z' is grandPa of 'y'
-		Elem<T_key, T_value>* y = x->parent;
-		Elem<T_key, T_value>* z;
-		if (y->parent == nullptr) {
-			z = nullptr;
-		}
-		else {
-			z = y->parent;
-		}
+	// and 'z' is grandPa of 'y'
+	Elem<T_key, T_value>* y = x->parent;
+	Elem<T_key, T_value>* z;
+	if (y->parent == nullptr) {
+		z = nullptr;
+	}
+	else {
+		z = y->parent;
+	}
 
-		if (x->next_right->data != nullptr) {
-			y->next_left = x->next_right;
-		}
-
-		if (z == nullptr) {
-			x = root;
-		}
-		else if (z->next_right == y) {
-			z->next_right = x;
-			x->parent = z;
-		}
-		else {
-			z->next_left = x;
-			x->parent = z;
-		}
-
+	if (x->next_right->data != nullptr) {
 		y->next_left = x->next_right;
-		x->next_right = y;
-		y->parent = x;
+	}
+
+	if (z == nullptr) {
+		x = root;
+	}
+	else if (z->next_right == y) {
+		z->next_right = x;
+		x->parent = z;
+	}
+	else {
+		z->next_left = x;
+		x->parent = z;
+	}
+
+	y->next_left = x->next_right;
+	x->next_right = y;
+	y->parent = x;
+}
+
+template<class T_key, class T_value>
+void Tree<T_key, T_value>::remove(T_key key)
+{
+	Elem<T_key, T_value>* delete_elem = findElem(key);
+
+	if ((root->next_left->color == false) && (root->next_right->color == false)) {
+		delete root;
+		root = nullptr;
+	}
+
+	bool originalColor = true; // красный по дефолту, меняет цвет - балансим
+	if ((delete_elem->next_left->data == nullptr) && (delete_elem->next_right->data == nullptr)) {
+		
+		Elem<T_key, T_value>* nil = new Elem<T_key, T_value>(nullptr, nullptr, nullptr, nullptr, nullptr, false);
+		
+		delete delete_elem->next_left;
+		delete delete_elem->next_right;
+		
+		nil->parent = delete_elem->parent;
+		if (delete_elem->parent->next_left == delete_elem) {
+			delete_elem->parent->next_left = nil;
+		}
+		else {
+			delete_elem->parent->next_right = nil;
+		}
+
+		delete delete_elem;
+	}
+	else if ((delete_elem->next_left->data == nullptr) && (delete_elem->next_right->data != nullptr)) {
+		originalColor = delete_elem->color;
+		delete delete_elem->next_left;
+		Elem<T_key, T_value>* x = delete_elem->next_right;
+
+		x->parent = delete_elem->parent;
+		if (delete_elem->parent->next_left == delete_elem) {
+			delete_elem->parent->next_left = x;
+		}
+		else {
+			delete_elem->parent->next_right = x;
+		}
+
+		delete delete_elem;
+		// доделать как ниже
+	}
+	else if ((delete_elem->next_left->data != nullptr) && (delete_elem->next_right->data == nullptr)) {
+		originalColor = delete_elem->color;
+		delete delete_elem->next_right;
+		Elem<T_key, T_value>* x = delete_elem->next_left;
+		
+		x->parent = delete_elem->parent;
+		if (delete_elem->parent->next_right == delete_elem) {
+			delete_elem->parent->next_right = x;
+		}
+		else {
+			delete_elem->parent->next_left = x;
+		}
+
+		delete delete_elem;
+		
+	}
+	else {
+		// доделать как выше
+		Elem<T_key, T_value>* y = delete_elem->next_right;
+
+		while (y->next_left->data != nullptr) { // 1
+			y = y->next_left; // min right subtree
+		}
+		originalColor = y->color; // 2
+
+		Elem<T_key, T_value>* x = y->next_right; // 3
+
+		if (y->parent == delete_elem) { // 4
+			x->parent = delete_elem;
+			delete_elem->next_right = x;
+		}
+		else {
+			//y->next_right = y; // 5
+			x->parent = y->parent;
+			y->parent->next_left = x;
+		}
+
+		//y = delete_elem; // 6
+		delete_elem->data = y->data;
+		delete_elem->val = y->val;
+
+
+		y->color = originalColor; // 7
+
+		delete y->next_left;
+		delete y;
+	}
+
+	if (originalColor == false) {
+		// brtBalanceRemove();
+	}
 }
 
 template<class T_key, class T_value>

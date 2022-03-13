@@ -78,7 +78,7 @@ public:
 		leftRotate(y);
 	}
 
-	//void remove(T_key key);
+	void remove(T_key key);
 	//void brtBalanceInsert();
 	//void brtBalanceRemove();
 

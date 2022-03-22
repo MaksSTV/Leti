@@ -64,90 +64,68 @@ void Tree<T_key, T_value>::insert(T_key key, T_value val)
 		temp->next_right = right_nil;
 		right_nil->parent = temp;
 
+		brtBalanceInsert(temp);
+
 	}
 }
 
 template<class T_key, class T_value>
-void Tree<T_key, T_value>::leftRotate(Elem<T_key, T_value>* y)
+void Tree<T_key, T_value>::leftRotate(Elem<T_key, T_value>* x)
 {
-	// now 'y' is son of 'x'
-	// and 'z' is grandPa of 'x'
-	Elem<T_key, T_value>* x = y->parent;
-	Elem<T_key, T_value>* z = x->parent;
+	Elem<T_key, T_value>* right_child = x->next_right;
+	x->next_right = right_child->next_left;
+	if (right_child->next_left->data != nullptr) {
+		right_child->next_left->parent = x;
+	}
+	right_child->parent = x->parent;
 	if (x->parent == nullptr) {
-		z = nullptr;
+		root = right_child;
+	}
+	else if (x == x->parent->next_left) {
+		x->parent->next_left = right_child;
 	}
 	else {
-		z = x->parent;
+		x->parent->next_right = right_child;
 	}
+	right_child->next_left = x;
+	x->parent = right_child;
 	
-	if (y->next_left->data != nullptr) {
-		x->next_right = y->next_left;
-	}
-
-	if (z == nullptr) {
-		y = root;
-	}
-	else if (z->next_left == x) {
-		z->next_left = y;
-		y->parent = z;
-	}
-	else {
-		z->next_right = y;
-		y->parent = z;
-	}
-
-	x->next_right = y->next_left; // y->next_left = x->next_right;
-	y->next_left = x;		// x->next_right = y;
-	x->parent = y;			// y->parent = x;
 }
 
 template<class T_key, class T_value>
 inline void Tree<T_key, T_value>::rightRotate(Elem<T_key, T_value>* x)
 {
-	// now 'x' is son of 'y'
-	// and 'z' is grandPa of 'y'
-	Elem<T_key, T_value>* y = x->parent;
-	Elem<T_key, T_value>* z;
-	if (y->parent == nullptr) {
-		z = nullptr;
+	Elem<T_key, T_value>* left_child = x->next_left;  
+	x->next_left = left_child->next_right;			  
+	if (left_child->next_right->data != nullptr) {	 
+		left_child->next_right->parent = x;			  
+	}												
+	left_child->parent = x->parent;					  
+	if (x->parent == nullptr) {						 
+		root = left_child;							  
+	}												  
+	else if (x == x->parent->next_right) {			 
+		x->parent->next_right = left_child;			  
 	}
 	else {
-		z = y->parent;
+		x->parent->next_left = left_child;
 	}
-
-	if (x->next_right->data != nullptr) {
-		y->next_left = x->next_right;
-	}
-
-	if (z == nullptr) {
-		x = root;
-	}
-	else if (z->next_right == y) {
-		z->next_right = x;
-		x->parent = z;
-	}
-	else {
-		z->next_left = x;
-		x->parent = z;
-	}
-
-	y->next_left = x->next_right;
-	x->next_right = y;
-	y->parent = x;
+	left_child->next_right = x;
+	x->parent = left_child;
 }
 
 template<class T_key, class T_value>
 void Tree<T_key, T_value>::remove(T_key key)
 {
 	Elem<T_key, T_value>* delete_elem = findElem(key);
+	Elem<T_key, T_value>* x = nullptr;
 
 	if ((root->next_left->color == false) && (root->next_right->color == false)) {
 		delete root;
 		root = nullptr;
 	}
 
-	bool originalColor = true; // красный по дефолту, меняет цвет - балансим
+	bool originalColor = true; 
 	if ((delete_elem->next_left->data == nullptr) && (delete_elem->next_right->data == nullptr)) {
 		
 		Elem<T_key, T_value>* nil = new Elem<T_key, T_value>(nullptr, nullptr, nullptr, nullptr, nullptr, false);
@@ -168,7 +146,7 @@ void Tree<T_key, T_value>::remove(T_key key)
 	else if ((delete_elem->next_left->data == nullptr) && (delete_elem->next_right->data != nullptr)) {
 		originalColor = delete_elem->color;
 		delete delete_elem->next_left;
-		Elem<T_key, T_value>* x = delete_elem->next_right;
+		x = delete_elem->next_right;
 
 		x->parent = delete_elem->parent;
 		if (delete_elem->parent->next_left == delete_elem) {
@@ -179,12 +157,12 @@ void Tree<T_key, T_value>::remove(T_key key)
 		}
 
 		delete delete_elem;
-		// доделать как ниже
+		
 	}
 	else if ((delete_elem->next_left->data != nullptr) && (delete_elem->next_right->data == nullptr)) {
 		originalColor = delete_elem->color;
 		delete delete_elem->next_right;
-		Elem<T_key, T_value>* x = delete_elem->next_left;
+		x = delete_elem->next_left;
 		
 		x->parent = delete_elem->parent;
 		if (delete_elem->parent->next_right == delete_elem) {
@@ -198,7 +176,7 @@ void Tree<T_key, T_value>::remove(T_key key)
 		
 	}
 	else {
-		// доделать как выше
+		
 		Elem<T_key, T_value>* y = delete_elem->next_right;
 
 		while (y->next_left->data != nullptr) { // 1
@@ -206,7 +184,7 @@ void Tree<T_key, T_value>::remove(T_key key)
 		}
 		originalColor = y->color; // 2
 
-		Elem<T_key, T_value>* x = y->next_right; // 3
+		x = y->next_right; // 3
 
 		if (y->parent == delete_elem) { // 4
 			x->parent = delete_elem;
@@ -230,9 +208,126 @@ void Tree<T_key, T_value>::remove(T_key key)
 	}
 
 	if (originalColor == false) {
-		// brtBalanceRemove();
+		brtBalanceRemove(x);
 	}
 }
+
+template<class T_key, class T_value>
+void Tree<T_key, T_value>::brtBalanceInsert(Elem<T_key, T_value>* x)
+{
+
+	Elem<T_key, T_value>* grandParent;
+	while (x->parent->color == true) {
+		if (x->parent == x->parent->parent->next_right) {
+			grandParent = x->parent->parent->next_left;
+			if (grandParent->color == true) {
+				
+				grandParent->color = false;
+				x->parent->color = false;
+				x->parent->parent->color = true;
+				x = x->parent->parent;
+
+			}
+			else {
+				if (x == x->parent->next_left) {
+					x = x->parent;
+					rightRotate(x);
+				}
+				x->parent->color = false;
+				x->parent->parent->color = true;
+				leftRotate(x->parent->parent);
+			}
+		}
+		else {
+			grandParent = x->parent->parent->next_right;
+			if (grandParent->color == true) {
+				grandParent->color = false;
+				x->parent->color = false;
+				x->parent->parent->color = true;
+				x = x->parent->parent;
+			}
+			else {
+				if (x == x->parent->next_right) {
+					x = x->parent;
+					leftRotate(x);
+				}
+
+				x->parent->color = false;
+				x->parent->parent->color = true;
+				rightRotate(x->parent->parent);
+			}
+		}
+		if (x == root) {
+			break;
+		}
+	}
+	root->color = 0;
+}
+
+template<class T_key, class T_value>
+void Tree<T_key, T_value>::brtBalanceRemove(Elem<T_key, T_value>* x)
+{
+	Elem<T_key, T_value>* x_bro; // w in lucture
+
+	while ((x != root) && (x->color != false)) {
+		if (x->parent->next_left == x) {
+			x_bro = x->parent->next_right;
+			if (x_bro->color == true) {
+				x_bro->color = false;
+				x->parent->color = true;
+				leftRotate(x->parent);
+				x_bro = x->parent->next_right;
+			}
+			if ((x_bro->next_right->color == false) && (x_bro->next_left->color == false)) {
+				x_bro->color = true;
+				x = x->parent;
+			}
+			else {
+				if (x_bro->next_right->color == false) {
+					x_bro->next_left->color = false;
+					x_bro->color = true;
+					rightRotate(x_bro);
+					x_bro = x->parent->next_right;
+				}
+				x_bro->color = x->parent->color;
+				x->parent->color = false;
+				x_bro->next_right->color = false;
+				leftRotate(x->parent);
+				x = root;
+			}
+		}
+		else{
+			x_bro = x->parent->next_left;
+			if (x_bro->color == true) {
+				x_bro->color = false;
+				x->parent->color = true;
+				rightRotate(x->parent);
+				x_bro = x->parent->next_left;
+			}
+			if ((x_bro->next_right->color == false) && (x_bro->next_left->color == false)) {
+				x_bro->color = true;
+				x = x->parent;
+			}
+			else {
+				if (x_bro->next_left->color == false) {
+					x_bro->next_right->color = false;
+					x_bro->color = true;
+					leftRotate(x_bro);
+					x_bro = x->parent->next_left;
+				}
+				x_bro->color = x->parent->color;
+				x->parent->color = false;
+				x_bro->next_left->color = false;
+				rightRotate(x->parent);
+				x = root;
+			}
+		}
+	}
+	x->color = false; 
+}
+	
+
+
 
 template<class T_key, class T_value>
 bool Tree<T_key, T_value>::contains(T_key data)

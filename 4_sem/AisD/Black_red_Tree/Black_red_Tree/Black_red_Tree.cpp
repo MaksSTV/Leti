@@ -12,9 +12,9 @@ int main()
 {
 
 	// (не) рабочая хуета
-	Tree<int, std::string> bucha(8, "Pudge"); //"Pudge"
-	bucha.insert(15, "Mirana");
-	bucha.insert(10, "Mirana");
+	Tree<int, std::string> bucha(33, "Pudge"); //"Pudge"
+	bucha.insert(13, "Mirana");
+	bucha.insert(21, "Mirana");
 	bucha.insert(20, "Mirana");
 	bucha.insert(25, "Mirana");
 	bucha.insert(30, "Mirana");
@@ -30,16 +30,17 @@ int main()
 	bucha.insert(3, "Zeus");
 	bucha.insert(7, "Underlord");*/
 
-	/*int* a = new int(bucha.getLeftPointer());
-	std::cout << *a << std::endl;
-
-	int* b = new int(bucha.getRightPointer());
-	std::cout << *b << std::endl;*/
-
-	//bucha.remove(12);
+	
+	if (bucha.contains(20)) {
+		std::cout << "Yes, Elem if found\n";
+	}
+	else {
+		std::cout << "Error!!! Not found\n";
+	}
+	bucha.remove(20);
 	bucha.remove(15);
 
-	if (bucha.contains(3)) {
+	if (bucha.contains(20)) {
 		std::cout << "Yes, Elem if found\n";
 	}
 	else {

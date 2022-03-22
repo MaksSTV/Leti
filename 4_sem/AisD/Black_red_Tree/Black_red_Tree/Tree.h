@@ -48,19 +48,7 @@ public:
 		right_nil->parent = root;
 	}
 
-	int getLeftPointer() {
-		Elem<T_key, T_value>* tmp = root;
-		tmp = tmp->next_left->next_left;
-		rightRotate(tmp);
-		return *tmp->data;
-	}
-
-	int getRightPointer() {
-		Elem<T_key, T_value>* tmp = root;
-		tmp = tmp->next_left->next_right;
-		leftRotate(tmp);
-		return *tmp->data;
-	}
+	
 
 	void insert(T_key key, T_value val);
 
@@ -79,8 +67,10 @@ public:
 	}
 
 	void remove(T_key key);
-	//void brtBalanceInsert();
-	//void brtBalanceRemove();
+
+	void brtBalanceInsert(Elem<T_key, T_value>* x);
+
+	void brtBalanceRemove(Elem<T_key, T_value>* x);
 
 	bool contains(T_key data);
 

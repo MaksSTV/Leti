@@ -9,6 +9,7 @@
 #include "Iterator.h"
 #include "DFT_iterator.h"
 #include "Elem.h"
+#include "LinkedList.h"
 
 
 
@@ -68,6 +69,10 @@ public:
 
 	void remove(T_key key);
 
+	void freeTree(Elem<T_key, T_value>* x);
+
+	void clear();
+
 	void brtBalanceInsert(Elem<T_key, T_value>* x);
 
 	void brtBalanceRemove(Elem<T_key, T_value>* x);
@@ -75,6 +80,14 @@ public:
 	bool contains(T_key data);
 
 	Elem<T_key, T_value>* findElem(T_key data);
+
+	void print();
+
+	List<T_key> getKeys();
+
+	List<T_value> getValues();
+
+	friend std::ostream& operator<< (std::ostream& out, const Elem<T_key, T_value>& argument);
 
 };
 

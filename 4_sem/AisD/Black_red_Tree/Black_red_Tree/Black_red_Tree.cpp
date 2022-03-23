@@ -1,35 +1,38 @@
 ﻿// Black_red_Tree.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#define __CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+
 #include <iostream>
 #include <string>
 
-//#include "Stack.h"
-//#include "Iterator.h"
+
 #include "Tree.h"
 
 int main()
 {
 
-	// (не) рабочая хуета
+	
 	Tree<int, std::string> bucha(33, "Pudge"); //"Pudge"
-	bucha.insert(13, "Mirana");
+	bucha.insert(13, "Ancent_Apparation");
 	bucha.insert(21, "Mirana");
-	bucha.insert(20, "Mirana");
+	bucha.insert(20, "Troll_Warlord");
 	bucha.insert(25, "Mirana");
-	bucha.insert(30, "Mirana");
-	bucha.insert(18, "Mirana");
-	bucha.insert(19, "Mirana");
-	bucha.insert(16, "Mirana");
-	bucha.insert(17, "Mirana");
-	//std::string str("Ancent_Apparation");
-	/*bucha.insert(8, str);
-	bucha.insert(12, "Mirana");
-	bucha.insert(11, "Troll_Warlord");
-	bucha.insert(6, "Spirit_Braker");
-	bucha.insert(3, "Zeus");
-	bucha.insert(7, "Underlord");*/
+	bucha.insert(30, "Spirit_Braker");
+	bucha.insert(18, "Zeus");
+	bucha.insert(19, "Underlord");
+	bucha.insert(16, "Marci");
+	bucha.insert(17, "Meepo");
 
+	auto keys = bucha.getKeys();
+
+	auto val = bucha.getValues();
+
+	bucha.print();
+	
 	
 	if (bucha.contains(20)) {
 		std::cout << "Yes, Elem if found\n";
@@ -38,7 +41,7 @@ int main()
 		std::cout << "Error!!! Not found\n";
 	}
 	bucha.remove(20);
-	bucha.remove(15);
+	//bucha.remove(15);
 
 	if (bucha.contains(20)) {
 		std::cout << "Yes, Elem if found\n";
@@ -46,6 +49,23 @@ int main()
 	else {
 		std::cout << "Error!!! Not found\n";
 	}
+
+	bucha.clear();
+
+	std::cout << "123\n";
+
+	Tree<int, std::string> bukva(33, "Pudge");
+	if (bukva.contains(33)) {
+		std::cout << "Yes, Elem if found\n";
+	}
+	else {
+		std::cout << "Error!!! Not found\n";
+	}
+	bukva.remove(33);
+	_CrtDumpMemoryLeaks();
+
 	system("pause");
+
+	
 	return 0;
 }

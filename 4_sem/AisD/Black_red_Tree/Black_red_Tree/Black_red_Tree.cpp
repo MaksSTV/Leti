@@ -41,7 +41,6 @@ int main()
 		std::cout << "Error!!! Not found\n";
 	}
 	bucha.remove(20);
-	//bucha.remove(15);
 
 	if (bucha.contains(20)) {
 		std::cout << "Yes, Elem if found\n";
@@ -51,6 +50,7 @@ int main()
 	}
 
 	bucha.clear();
+	bucha.insert(15, "14");
 
 	std::cout << "123\n";
 
@@ -62,6 +62,22 @@ int main()
 		std::cout << "Error!!! Not found\n";
 	}
 	bukva.remove(33);
+
+	Tree<int, int> tree(7, 10);
+	tree.insert(8, 8);
+	tree.insert(11, 12);
+	tree.insert(10, 11);
+	tree.insert(9, 6);
+	tree.insert(12, 3);
+	tree.remove(10);
+
+	auto bla = tree.getKeys();
+
+	
+
+	std::cout << bla << std::endl;
+	
+
 	_CrtDumpMemoryLeaks();
 
 	system("pause");

@@ -47,7 +47,7 @@ public:
 			return this->next->data;
 	}
 
-	T_link getElemdata() {
+	T_link& getElemdata() {
 		return this->data;
 	}
 

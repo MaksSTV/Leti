@@ -101,7 +101,7 @@ void List<T_link>::insert(T_link item, size_t index) {
 }
 
 template<class T_link>
-int List<T_link>::at(size_t index) {
+T_link& List<T_link>::at(size_t index) {
 	// get elem by index
 	cur = head;
 	int count = 0;
@@ -109,7 +109,7 @@ int List<T_link>::at(size_t index) {
 		if (index == count) {
 			return cur->getElemdata();
 		}
-		count++;
+		count++;	
 		cur = cur->getNext();
 	}
 	if (cur == NULL) {

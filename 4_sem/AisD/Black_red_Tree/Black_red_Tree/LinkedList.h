@@ -34,7 +34,7 @@ public:
 
 	void insert(T_link item, size_t index);
 
-	int at(size_t index);
+	T_link at(size_t index);
 
 	void remove(size_t index);
 	

@@ -69,7 +69,7 @@ int main()
 	tree.insert(10, 11);
 	tree.insert(9, 6);
 	tree.insert(12, 3);
-	tree.remove(10);
+	tree.remove(8);
 
 	auto bla = tree.getKeys();
 

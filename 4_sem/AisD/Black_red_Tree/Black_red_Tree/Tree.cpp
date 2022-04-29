@@ -32,7 +32,7 @@ void Tree<T_key, T_value>::insert(T_key key, T_value val)
 		Elem<T_key, T_value>* temp = new Elem<T_key, T_value>(&key, &val);//8
 		Elem<T_key, T_value>* cur = root;//10
 
-		while (true) {
+		while (cur->data != nullptr) {
 			if (*temp->data > *cur->data) {
 				if (cur->next_right->data == nullptr) {
 						cur->next_right = temp;
@@ -287,7 +287,7 @@ void Tree<T_key, T_value>::brtBalanceInsert(Elem<T_key, T_value>* x)
 template<class T_key, class T_value>
 void Tree<T_key, T_value>::brtBalanceRemove(Elem<T_key, T_value>* x)
 {
-	Elem<T_key, T_value>* x_bro; // w in lucture
+	Elem<T_key, T_value>* x_bro; // w in lecture
 
 	while ((x != root) && (x->color != false)) {
 		if (x->parent->next_left == x) {
@@ -361,20 +361,21 @@ bool Tree<T_key, T_value>::contains(T_key data)
 template<class T_key, class T_value>
 Elem<T_key, T_value>* Tree<T_key, T_value>::findElem(T_key data)
 {
-	Elem<T_key, T_value>* foundNode = nullptr;
-
-	dft_iterator<T_key, T_value>* new_dft_iterator;
+	Elem<T_key, T_value>* foundNode = root;
 	
-	new_dft_iterator = new dft_iterator<T_key, T_value>(root);
-
-	while (new_dft_iterator->has_next()) {
-		foundNode = new_dft_iterator->getCur();
-		if (new_dft_iterator->next() == data) {
-			delete new_dft_iterator;
+	while (foundNode->data != nullptr) {
+		if (foundNode->data == data) {
 			return foundNode;
 		}
+		if ((data > foundNode->data) && (foundNode->data != nullptr)) {
+			foundNode->next_right;
+			continue;
+		}
+		if ((data < foundNode->data) && (foundNode->data != nullptr)) {
+			foundNode->next_left;
+			continue;
+		}
 	}
-	delete new_dft_iterator;
 	throw std::invalid_argument("Element not found!");
 }
 
@@ -401,16 +402,16 @@ void Tree<T_key, T_value>::print()
 template<class T_key, class T_value>
 List<T_key> Tree<T_key, T_value>::getKeys()
 {
-	List<T_key> listKey; // связный список
-	Elem<T_key, T_value>* foundNode = nullptr; // указатель для работы
-	dft_iterator<T_key, T_value>* new_dft_iterator; // итератор
+	List<T_key> listKey; 
+	Elem<T_key, T_value>* foundNode = nullptr; 
+	dft_iterator<T_key, T_value>* new_dft_iterator; 
 
-	new_dft_iterator = new dft_iterator<T_key, T_value>(root); // пошла работа
+	new_dft_iterator = new dft_iterator<T_key, T_value>(root);
 
-	while (new_dft_iterator->has_next()) { // проверяем на некст элем ниже
-		foundNode = new_dft_iterator->getCur(); // записываем даннные
-		new_dft_iterator->next(); // идем дальше
-		listKey.push_front(*foundNode->data); // заполняем список
+	while (new_dft_iterator->has_next()) { 
+		foundNode = new_dft_iterator->getCur(); 
+		new_dft_iterator->next(); 
+		listKey.push_front(*foundNode->data); 
 		
 	}
 	delete new_dft_iterator;
@@ -421,16 +422,16 @@ List<T_key> Tree<T_key, T_value>::getKeys()
 template<class T_key, class T_value>
 List<T_value> Tree<T_key, T_value>::getValues()
 {
-	List<T_value> listVal; // связный список
-	Elem<T_key, T_value>* foundNode = nullptr; // указатель для работы
-	dft_iterator<T_key, T_value>* new_dft_iterator; // итератор
+	List<T_value> listVal; 
+	Elem<T_key, T_value>* foundNode = nullptr;
+	dft_iterator<T_key, T_value>* new_dft_iterator;
 
-	new_dft_iterator = new dft_iterator<T_key, T_value>(root); // пошла работа
+	new_dft_iterator = new dft_iterator<T_key, T_value>(root); 
 
-	while (new_dft_iterator->has_next()) { // проверяем на некст элем ниже
-		foundNode = new_dft_iterator->getCur(); // записываем даннные
-		new_dft_iterator->next(); // идем дальше
-		listVal.push_front(*foundNode->val); // заполняем список
+	while (new_dft_iterator->has_next()) { 
+		foundNode = new_dft_iterator->getCur(); 
+		new_dft_iterator->next(); 
+		listVal.push_front(*foundNode->val); 
 
 	}
 	delete new_dft_iterator;

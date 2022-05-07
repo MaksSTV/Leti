@@ -140,6 +140,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Huffman.cpp" />
+    <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="Tree.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DFT_iterator.h" />
+    <ClInclude Include="Elem.h" />
+    <ClInclude Include="HuffmanTree.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="LinkedListElem.h" />
+    <ClInclude Include="Pair.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

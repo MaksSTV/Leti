@@ -15,46 +15,46 @@ class HuffCode{
 		std::string stringEncode;
 		std::string stringParse;
 
-		void nountingFrequencyOccurrence(std::string string, Red_Black_Tree<char, int, std::string>& Map){
-			if (getStringLength(string) == 0){
-				throw std::domain_error("An empty string cannot be encoded");
+		void Frequency(std::string string, Red_Black_Tree<char, int, std::string>& map){
+			if (getLength(string) == 0){
+				throw std::invalid_argument("An empty string cannot be encoded");
 			}
 			else{
 				for (int index = 0; string[index] != '\0'; index++){
-					if (Map.get_size_tree() == 0){
-						Map.insert(string[index], 1);
+					if (map.getSize() == 0){
+						map.insert(string[index], 1);
 					}
 					else{
-						if (Map.find(string[index])){
-							Map.Get_map_element(string[index])->value++;
+						if (map.find(string[index])){
+							map.getElem(string[index])->value++;
 						}
 						else{
-							Map.insert(string[index], 1);
+							map.insert(string[index], 1);
 						}
 					}
 				}
 			}
 		}
 
-		void createTreeHuffman(Red_Black_Tree<char, int, std::string>& Map, HuffmanTree& Tree){
+		void buildHuffTree(Red_Black_Tree<char, int, std::string>& map, HuffmanTree& tree){
 
 			HuffmanTree::List listVertices;
-			Red_Black_Tree<char, int, std::string>::List<char> List_keys = Map.get_keys();
-			Red_Black_Tree<char, int, std::string>::List<int> List_values = Map.get_values();
+			Red_Black_Tree<char, int, std::string>::List<char> List_keys = map.get_keys();
+			Red_Black_Tree<char, int, std::string>::List<int> List_values = map.get_values();
 			while (List_keys.get_head() != nullptr && List_values.get_head() != nullptr){
-				listVertices.pushBack(Tree.createNewElement(List_keys.get_head()->data, List_values.get_head()->data));
+				listVertices.pushBack(tree.createNewElement(List_keys.get_head()->data, List_values.get_head()->data));
 				List_keys.pop_front();
 				List_values.pop_front();
 			}
 			HuffmanTree::List processedVertices;
 			processedVertices.copyList(listVertices);
 
-			formingTreeHuffman(listVertices);
+			modificationHuffTree(listVertices);
 
-			getCodeSymbols(processedVertices);
+			getBinaryCode(processedVertices);
 		}
 
-		void formingTreeHuffman(HuffmanTree::List& listVertices){
+		void modificationHuffTree(HuffmanTree::List& listVertices){
 			listVertices.sortListElements();
 			while (listVertices.getSizeList() != 1){
 				listVertices.pushBack(listVertices.CombiningElements(huffTree));
@@ -67,14 +67,14 @@ class HuffCode{
 			huffTree.setRootNode(listVertices.getHead()->data);
 		}
 
-		void getCodeSymbols(HuffmanTree::List& processedVertices){
-			while (processedVertices.getHead() != nullptr){
-				map.Get_map_element(processedVertices.getHead()->data->symbol)->code = huffTree.getCode(processedVertices.getHead()->data);
-				processedVertices.popFront();
+		void getBinaryCode(HuffmanTree::List& node){
+			while (node.getHead() != nullptr){
+				map.getElem(node.getHead()->data->symbol)->code = huffTree.getCode(node.getHead()->data);
+				node.popFront();
 			}
 		}
 
-		double getStringLength(std::string string){
+		double getLength(std::string string){
 			double index = 0;
 			for (index; string[index] != '\0'; index++);
 			return index;
@@ -85,8 +85,8 @@ class HuffCode{
 		HuffCode(std::string string){
 			stringParse = string;
 			stringEncode = "";
-			nountingFrequencyOccurrence(string, map);
-			createTreeHuffman(map, huffTree);
+			Frequency(string, map);
+			buildHuffTree(map, huffTree);
 		}
 
 		~HuffCode(){
@@ -114,7 +114,7 @@ class HuffCode{
 		std::string codingSourceString(){
 			std::cout << "Encoded string:\n";
 			for (int index = 0; stringParse[index] != '\0'; index++) {
-				stringEncode += map.Get_map_element(stringParse[index])->code;
+				stringEncode += map.getElem(stringParse[index])->code;
 			}
 			return stringEncode;
 		}
@@ -131,19 +131,19 @@ class HuffCode{
 			}
 		}
 
-		double memoryCapacitySourceString(){
+		double volumeSourseString(){
 			std::cout << "Source string size in bits: ";
-			return getStringLength(stringParse) * 8;
+			return getLength(stringParse) * 8;
 		}
 
-		double memoryCapacityEncodedString(){
+		double volumeEncodeString(){
 			std::cout << "Encode string size in bits: ";
-			return getStringLength(stringEncode);
+			return getLength(stringEncode);
 		}
 
 		double compressionRatio(){
 			std::cout << "Compression ratio: ";
-			return (getStringLength(stringParse) * 8 / getStringLength(stringEncode));
+			return (getLength(stringParse) * 8 / getLength(stringEncode));
 		}
 };
 

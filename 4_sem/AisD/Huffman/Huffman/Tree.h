@@ -61,25 +61,25 @@ class Red_Black_Tree
 		}
 
 		ElemRBT* get_root_node(){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				return root;
 			}
 			else throw std::invalid_argument("Red-black tree (associative array) is empty");
 		};
 
-		size_t get_size_tree(){
+		size_t getSize(){
 			return size_tree;
 		}
 
 		ElemRBT* get_nil_node(){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				return nil;
 			}
 			else throw std::invalid_argument("Red-black tree (associative array) is empty");
 		}
 
 		void insert(T1 key, T2 value){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				bool New_element_added(false);
 				ElemRBT* current_element = root;
 				while (!New_element_added){
@@ -220,7 +220,7 @@ class Red_Black_Tree
 		}
 
 		bool find(T1 key){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				bool Element_found(false);
 				ElemRBT* current_element = root;
 				while (!Element_found){
@@ -241,8 +241,8 @@ class Red_Black_Tree
 			else throw std::invalid_argument("The element cannot be found because the associative array is empty");
 		}
 
-		ElemRBT* Get_map_element(T1 key){
-			if (get_size_tree() != 0 && find(key)){
+		ElemRBT* getElem(T1 key){
+			if (getSize() != 0 && find(key)){
 				bool Element_found(false);
 				ElemRBT* current_element = root;
 				while (!Element_found){
@@ -419,8 +419,8 @@ class Red_Black_Tree
 		}
 
 		void clear(){
-			if (get_size_tree() != 0){
-				while (get_size_tree() != 0){
+			if (getSize() != 0){
+				while (getSize() != 0){
 					remove(root->key);
 				}
 				delete nil;
@@ -700,7 +700,7 @@ class Red_Black_Tree
 		};
 
 		List<T1> get_keys(){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				List<T1>* List_keys = new List<T1>;
 				Breadth_first_traverse_iterator* bft_iterator = new Breadth_first_traverse_iterator(root, nil);
 				while (bft_iterator->has_next()) List_keys->push_back(bft_iterator->next()->key);
@@ -710,7 +710,7 @@ class Red_Black_Tree
 		}
 
 		List<T2> get_values(){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				List<T2>* List_value = new List<T2>;
 				Breadth_first_traverse_iterator* bft_iterator = new Breadth_first_traverse_iterator(root, nil);
 				while (bft_iterator->has_next()) List_value->push_back(bft_iterator->next()->value);
@@ -720,7 +720,7 @@ class Red_Black_Tree
 		}
 
 		void print(){
-			if (get_size_tree() != 0){
+			if (getSize() != 0){
 				Breadth_first_traverse_iterator* bft_iterator = new Breadth_first_traverse_iterator(root, nil);
 				ElemRBT* Node;
 				while (bft_iterator->has_next()){

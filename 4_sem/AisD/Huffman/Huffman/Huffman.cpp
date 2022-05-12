@@ -21,7 +21,7 @@ int main()
 {
 	//Take care of the person in yourself.
 	//A person must dream in order to see the meaning of life.
-	std::string string = "it is test string number four";
+	std::string string = "A person must dream in order to see the meaning of life";
 	std::cout << "\nSource string:\n" << string << std::endl << std::endl;
 
 	HuffCode huffString = HuffCode(string);
@@ -33,8 +33,8 @@ int main()
 
 	std::cout << huffString.decodingEncodedString() << std::endl << std::endl;
 
-	std::cout << huffString.memoryCapacitySourceString() << std::endl;
-	std::cout << huffString.memoryCapacityEncodedString() << std::endl;
+	std::cout << huffString.volumeSourseString() << std::endl;
+	std::cout << huffString.volumeEncodeString() << std::endl;
 	std::cout << huffString.compressionRatio() << std::endl;
 
 	system("pause");

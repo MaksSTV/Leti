@@ -2,13 +2,11 @@
 #define LINKEDLIST_CPP
 
 
-
-
 #include "LinkedList.h"
 #include <iostream>
 
 template<class T_link>
-void List<T_link>::push_front(T_link item) { // insert before first elem
+void List<T_link>::push_front(T_link item) {
 	if (head == nullptr) {
 		this->cur = this->head;
 		Elem_list<T_link>* temp = new Elem_list<T_link>(item);
@@ -27,7 +25,7 @@ void List<T_link>::push_front(T_link item) { // insert before first elem
 }
 
 template<class T_link>
-void List<T_link>::push_back(T_link item) { // insert after last elem
+void List<T_link>::push_back(T_link item) {
 	if (head == NULL) {
 		push_front(item);
 	}
@@ -41,7 +39,7 @@ void List<T_link>::push_back(T_link item) { // insert after last elem
 }
 
 template<class T_link>
-void List<T_link>::pop_front() { // delete first elem
+void List<T_link>::pop_front() {
 	if (head == NULL) {
 		throw std::runtime_error("Failed to execute the function pop_front()\n");
 	}
@@ -53,7 +51,7 @@ void List<T_link>::pop_front() { // delete first elem
 }
 
 template<class T_link>
-void List<T_link>::pop_back() { // delete last elem
+void List<T_link>::pop_back() {
 	if (last == head) {
 		throw std::runtime_error("Failed to execute the function pop_front()\n");
 	}
@@ -67,7 +65,7 @@ void List<T_link>::pop_back() { // delete last elem
 
 template<class T_link>
 void List<T_link>::insert(T_link item, size_t index) {
-	// insert elem by index
+
 	cur = head;
 	int count = 0;
 	bool flag = 0;
@@ -102,7 +100,7 @@ void List<T_link>::insert(T_link item, size_t index) {
 
 template<class T_link>
 T_link& List<T_link>::at(size_t index) {
-	// get elem by index
+
 	cur = head;
 	int count = 0;
 	while (cur != NULL) {
@@ -119,10 +117,10 @@ T_link& List<T_link>::at(size_t index) {
 
 template<class T_link>
 void List<T_link>::remove(size_t index) {
-	if (index == 0) { // delete head element
+	if (index == 0) {
 		pop_front();
 	}
-	else if (index == get_size() - 1) { // delete last element
+	else if (index == get_size() - 1) {
 		pop_back();
 	}
 	else { // delete by index
@@ -148,7 +146,7 @@ void List<T_link>::remove(size_t index) {
 }
 
 template<class T_link>
-size_t List<T_link>::get_size() { // get size list
+size_t List<T_link>::get_size() {
 	cur = head;
 	int count = 0;
 	while (cur != NULL) {
@@ -159,7 +157,7 @@ size_t List<T_link>::get_size() { // get size list
 }
 
 template<class T_link>
-void List<T_link>::clear() { // delete full list
+void List<T_link>::clear() {
 	cur = head;
 	while (cur != NULL) {
 		head = cur->getNext();
@@ -169,7 +167,7 @@ void List<T_link>::clear() { // delete full list
 }
 
 template<class T_link>
-void List<T_link>::set(size_t index, T_link new_data) {//change element by index
+void List<T_link>::set(size_t index, T_link new_data) {
 	cur = head;
 	int count = 0;
 	bool flag = 0;
@@ -190,7 +188,7 @@ void List<T_link>::set(size_t index, T_link new_data) {//change element by index
 }
 
 template<class T_link>
-bool List<T_link>::isEmpty() {// check if list is empty
+bool List<T_link>::isEmpty() {
 	if (head == NULL) {
 		return true;
 	}
@@ -200,7 +198,7 @@ bool List<T_link>::isEmpty() {// check if list is empty
 }
 
 template<class T_link>
-void List<T_link>::reverse() { // reverve list
+void List<T_link>::reverse() {
 	if (get_size() <= 1) return;
 
 	int temp;
@@ -214,7 +212,6 @@ void List<T_link>::reverse() { // reverve list
 
 template<class T_link>
 std::ostream& operator<< (std::ostream& out, List<T_link>& printList) {
-	// Overload operator output
 	out << "List: \n";
 	for (int index = 0; index < printList.get_size(); index++) {
 		out << printList.at(index) << std::endl;

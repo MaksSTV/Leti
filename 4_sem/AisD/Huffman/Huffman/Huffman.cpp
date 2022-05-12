@@ -4,59 +4,39 @@
 #include <iostream>
 #include <string.h>
 #include "Tree.h"
-#include "Pair.h"
+#include "HuffmanTree.h"
+#include "HuffmanCode.h"
 
 // I
-// создаем список в котором в каждой ноде есть пара символ+частота встречаемости
-// если такой символ есть, то ++, если нет, то pushback()
-// сортируем этот список (например пузырьком)
+// creating a list in which each node has a pair of symbol + frequency of occurrence
+// if there is such a symbol, then ++, if not, then push back()
+// sort this list (for example, with a bubble)
 // 
 //
 // II
 // TODO...
 
+
 int main()
 {
-    std::string test = "it is test string";
+	//Take care of the person in yourself.
+	//A person must dream in order to see the meaning of life.
+	std::string string = "it is test string number four";
+	std::cout << "\nSource string:\n" << string << std::endl << std::endl;
 
-    List<ElemListHuffman> parseList;
+	HuffCode huffString = HuffCode(string);
 
-    int size = test.size();
-    int sizeList = 0;
+	std::cout << huffString.codingSourceString() << std::endl << std::endl;
+	
+	huffString.getTableFrequenciesAndCodes();
+	std::cout << std::endl;
 
-    for (int i = 0; i < size; i++) {
-        ElemListHuffman node;
+	std::cout << huffString.decodingEncodedString() << std::endl << std::endl;
 
-        if (size == 0) {
-            node.symbol = test[0];
-            node.frequency++;
-            parseList.push_back(node);
-            sizeList++;
-            continue;
-        }
-            bool check = 0;
-            for (int j = 0; j < sizeList; j++) {
-                if (parseList.at(j).symbol == test[i]) {
-                    parseList.at(j).frequency++;
-                    check = 1;
-                    break;
-                }
-            }
-            if (check == 0) {
-                node.symbol = test[i];
-                node.frequency++;
-                parseList.push_back(node);
-                sizeList++;
-                continue;
-            }
-        
-    }
-    //std::cout << sizeList;
-    auto lenght = parseList.get_size();
-    for (int i = 0; i < lenght; i++) {
-        std::cout << parseList.at(i).symbol << "\t" << parseList.at(i).frequency << "\n";
-    }
+	std::cout << huffString.memoryCapacitySourceString() << std::endl;
+	std::cout << huffString.memoryCapacityEncodedString() << std::endl;
+	std::cout << huffString.compressionRatio() << std::endl;
 
-    system("pause");
-    return 0;
+	system("pause");
+	return 0;
 }

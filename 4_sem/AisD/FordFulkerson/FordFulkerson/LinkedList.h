@@ -50,9 +50,9 @@ public:
 
 	void reverse();
 
-	~List() = default;
+	//~List() = default;
 
-	/*~List() {
+	~List() {
 		Elem_list<T_link>* elem = head;
 		Elem_list<T_link>* tmp;
 		while (elem != NULL) {
@@ -60,7 +60,7 @@ public:
 			elem = elem->getNext();
 			delete tmp;
 		}
-	}*/
+	}
 
 };
 

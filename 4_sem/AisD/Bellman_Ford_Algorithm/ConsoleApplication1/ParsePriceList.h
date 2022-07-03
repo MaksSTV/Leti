@@ -18,13 +18,13 @@ void parsePriceList(List<Edge>* adjacencyMatrix, List<std::string>* vertices) {
             Edge edge_1;
             Edge edge_2;
 
-            subline = line;
+            subline = line;//Saint Petersburg;Moscow;10;20
             posit = line.find(';');
             subline.resize(posit);
             vertices->push_back(subline);
             edge_1.from = subline;
             edge_2.to = subline;
-            line.erase(0, posit + 1);
+            line.erase(0, posit + 1);//Moscow;10;20
 
             subline = line;
             posit = line.find(';');
@@ -32,17 +32,17 @@ void parsePriceList(List<Edge>* adjacencyMatrix, List<std::string>* vertices) {
             vertices->push_back(subline);
             edge_1.to = subline;
             edge_2.from = subline;
-            line.erase(0, posit + 1);
+            line.erase(0, posit + 1);//10;20
 
             subline = line;
             posit = line.find(';');
-            subline.resize(posit);
+            subline.resize(posit);//10;20
             if (subline != "N/A") {
                 edge_1.cost = std::stoi(subline);
                 adjacencyMatrix->push_front(edge_1);
             }
 
-            line.erase(0, posit + 1);
+            line.erase(0, posit + 1);//20
             if (line != "N/A") {
                 edge_2.cost = std::stoi(line);
                 adjacencyMatrix->push_front(edge_2);

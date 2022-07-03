@@ -50,7 +50,7 @@ int algorithm(List<Edge>* edge, List<std::string>* vertices, std::string from, s
     int* matrixCost = new int[countVertex];
     int conditionalInfinity = INT_MAX - 10000;
 
-    for (int i = 0; i < countVertex; i++) {
+    for (int i = 0; i < countVertex; i++) { //{21,5,3,4}
         if (vertices->at(i) == from) {
             matrixCost[i] = 0;
         }

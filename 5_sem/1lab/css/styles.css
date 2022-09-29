@@ -1,0 +1,41 @@
+.form_search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 250px;
+    margin-bottom: 20px;
+}
+
+.input_search{
+    width: 35%;
+    height: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 140%;
+}
+
+.js-search-results{
+    display: flex;
+}
+
+.ref{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20%;
+}
+
+a{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+a:link, 
+a:visited, 
+a:active{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
